@@ -1,0 +1,115 @@
+<html>
+<head>
+  <title>Object Detection</title>
+  <script src="https://unpkg.com/ml5@0.12.2/dist/ml5.min.js"></script>
+</head>
+
+<body style="margin: 0;">
+  <button id="captureScreenButton" style="display: none" onclick="getScreenCapture()">
+    capture screen
+  </button>
+  <video id="video" autoplay muted style="width: 100vw; height: 100vh"></video>
+</body>
+
+<script>
+  let ws;
+  function initWebsocket() {
+    ws = new WebSocket("wss://" + location.host);
+    ws.addEventListener("open", () => {
+      console.log("opened websocket connection");
+    });
+    ws.addEventListener("close", () => {
+      console.log("websocket connection closed");
+      setTimeout(() => {
+        initWebsocket();
+      }, 1000);
+    });
+  }
+  function isWebsocketConnected() {
+    return ws.readyState == WebSocket.OPEN;
+  }
+  function sendMessage(...message) {
+    if (isWebsocketConnected()) {
+      ws.send(JSON.stringify(message));
+    }
+  }
+  initWebsocket()
+
+  let captureStream;
+  async function getScreenCapture() {
+    if (captureStream) {
+      return;
+    }
+
+    try {
+      captureStream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: false,
+      });
+    } catch (error) {
+      console.error(`Error: ${error}`);
+    }
+
+    captureScreenButton.style.display = "none";
+    captureStream.oninactive = () => {
+      captureStream = null;
+      captureScreenButton.style.display = "";
+    };
+
+    video.srcObject = captureStream;
+    video.play();
+  }
+  video.onloadeddata = () => {
+    console.log("loaded data");
+
+    detect();
+  };
+
+  // ML5.js
+  let objectDetector;
+  let objects;
+  async function setupObjectDetection() {
+    objectDetector = await ml5.objectDetector("cocossd", onModelLoaded);
+  }
+  function onModelLoaded() {
+    console.log("model ready");
+    captureScreenButton.style.display = "";
+  }
+  function detect() {
+    if (!captureStream) {
+      return;
+    }
+    console.log("detect");
+    objectDetector.detect(video, onObjectDetection);
+  }
+
+  function onObjectDetection(error, results) {
+    console.log(error, results);
+    if (error) {
+      console.log(error);
+      return;
+    }
+    objects = results;
+
+    if (objects) {
+      let outputObj = []
+      for (const obj of objects) {
+        const x = obj.x / video.videoWidth;
+        const y = obj.y / video.videoHeight;
+        const width = obj.width / video.videoWidth;
+        const height = obj.height / video.videoHeight;
+        
+        outputObj.push({x1: x, y1: y, x2: x + width, y2: y + height, label: obj.label});
+      }
+
+      console.log('sending', outputObj)
+      sendMessage(outputObj)
+    }
+
+    detect();
+  }
+
+  setupObjectDetection();
+</script>
+
+</html>

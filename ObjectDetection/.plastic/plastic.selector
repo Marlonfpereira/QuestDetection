@@ -1,0 +1,4 @@
+repository "ObjectDetection@unity_UwlMz81DNua3aA@cloud"
+  path "/"
+    br "/main"
+    co "/main"
