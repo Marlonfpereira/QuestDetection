@@ -59,6 +59,11 @@ public class ObjectDetector : MonoBehaviour
 
                 ObjectsList detectedObject = JsonConvert.DeserializeObject<ObjectsList>(response);
 
+
+                foreach (Transform child in objectLoader.transform)
+                {
+                    GameObject.Destroy(child.gameObject);
+                }
                 foreach (DetectedObject obj in detectedObject.predictions)
                 {
                     if (obj.label == "person") continue;
@@ -72,7 +77,7 @@ public class ObjectDetector : MonoBehaviour
                     coords.x = (x1 + x2) / 2;
                     coords.y = y2;
                     coords.z = 0;
-                    
+
                     Ray ray = mainCamera.ScreenPointToRay(coords);
                     Debug.DrawRay(ray.origin, ray.direction * 100, Color.red);
 
@@ -81,6 +86,9 @@ public class ObjectDetector : MonoBehaviour
                     if (Physics.Raycast(ray, out hit, 100, raycastLayer))
                     {
                         Debug.Log(obj.label + " hit " + hit.collider.gameObject.name);
+
+                        GameObject currentObject = Instantiate(objectToSpawn, hit.point, Quaternion.identity);
+                        currentObject.transform.parent = objectLoader.transform;
                     }
                 }
             }
