@@ -12,6 +12,7 @@ public class ObjectDetector : MonoBehaviour
     public GameObject objectToSpawn;
     public LayerMask raycastLayer;
     public Camera mainCamera;
+    private Vector3 coords;
 
     private void Start()
     {
@@ -28,15 +29,19 @@ public class ObjectDetector : MonoBehaviour
     void Update()
     {
 
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        // Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        // Debug.DrawRay(ray.origin, ray.direction * 100, Color.red);
+
+
+        // RaycastHit hit;
+        // if (Physics.Raycast(ray, out hit, 100, raycastLayer))
+        // {
+        //     Debug.Log("Ray hit " + hit.collider.gameObject.name);
+        // }
+
+        Ray ray = mainCamera.ScreenPointToRay(coords);
         Debug.DrawRay(ray.origin, ray.direction * 100, Color.red);
 
-
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 100, raycastLayer))
-        {
-            Debug.Log("Ray hit " + hit.collider.gameObject.name);
-        }
 
 
         StartCoroutine(GetDataFromAPI());
@@ -56,7 +61,27 @@ public class ObjectDetector : MonoBehaviour
 
                 foreach (DetectedObject obj in detectedObject.predictions)
                 {
-                    Debug.Log("x1: " + obj.x1 + " y1: " + obj.y1 + " x2: " + obj.x2 + " y2: " + obj.y2 + " label: " + obj.label);
+                    if (obj.label == "person") continue;
+
+                    // Debug.Log("x1: " + obj.x1 + " y1: " + obj.y1 + " x2: " + obj.x2 + " y2: " + obj.y2 + " label: " + obj.label);
+                    float x1 = obj.x1 * Screen.width;
+                    float x2 = obj.x2 * Screen.width;
+                    float y1 = obj.y1 * Screen.height;
+                    float y2 = ((obj.y2 * -1) + 1) * Screen.height;
+
+                    coords.x = (x1 + x2) / 2;
+                    coords.y = y2;
+                    coords.z = 0;
+                    
+                    Ray ray = mainCamera.ScreenPointToRay(coords);
+                    Debug.DrawRay(ray.origin, ray.direction * 100, Color.red);
+
+
+                    RaycastHit hit;
+                    if (Physics.Raycast(ray, out hit, 100, raycastLayer))
+                    {
+                        Debug.Log(obj.label + " hit " + hit.collider.gameObject.name);
+                    }
                 }
             }
         }
@@ -66,12 +91,12 @@ public class ObjectDetector : MonoBehaviour
 }
 
 
-class ObjectsList : MonoBehaviour
+class ObjectsList
 {
     public DetectedObject[] predictions;
 }
 
-class DetectedObject : MonoBehaviour
+class DetectedObject
 {
 
     public float x1;
