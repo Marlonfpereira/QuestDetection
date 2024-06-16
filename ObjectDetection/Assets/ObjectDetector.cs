@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking; // import UnityWebRequest
+using Newtonsoft.Json;
 
 
-
-public class SpawnObjectInMiddle : MonoBehaviour
+public class ObjectDetector : MonoBehaviour
 {
     // The prefab to spawn
+    public GameObject objectLoader;
     public GameObject objectToSpawn;
     public LayerMask raycastLayer;
     public Camera mainCamera;
@@ -43,19 +44,20 @@ public class SpawnObjectInMiddle : MonoBehaviour
 
     IEnumerator GetDataFromAPI()
     {
-        using (UnityWebRequest www = UnityWebRequest.Get("http://localhost/predictions"))
+        using (UnityWebRequest www = UnityWebRequest.Get("http://192.168.137.41/predictions"))
         {
             yield return www.SendWebRequest();
 
             if (www.result == UnityWebRequest.Result.Success)
             {
                 string response = www.downloadHandler.text;
-                Debug.Log("response:");
-                Debug.Log(response);
-            }
-            else
-            {
-                Debug.Log(www.error);
+
+                ObjectsList detectedObject = JsonConvert.DeserializeObject<ObjectsList>(response);
+
+                foreach (DetectedObject obj in detectedObject.predictions)
+                {
+                    Debug.Log("x1: " + obj.x1 + " y1: " + obj.y1 + " x2: " + obj.x2 + " y2: " + obj.y2 + " label: " + obj.label);
+                }
             }
         }
 
@@ -63,3 +65,18 @@ public class SpawnObjectInMiddle : MonoBehaviour
 
 }
 
+
+class ObjectsList : MonoBehaviour
+{
+    public DetectedObject[] predictions;
+}
+
+class DetectedObject : MonoBehaviour
+{
+
+    public float x1;
+    public float y1;
+    public float x2;
+    public float y2;
+    public string label;
+}
