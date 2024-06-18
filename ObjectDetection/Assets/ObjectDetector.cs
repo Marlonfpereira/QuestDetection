@@ -71,14 +71,15 @@ public class ObjectDetector : MonoBehaviour
                     // Debug.Log("x1: " + obj.x1 + " y1: " + obj.y1 + " x2: " + obj.x2 + " y2: " + obj.y2 + " label: " + obj.label);
                     float x1 = obj.x1 * Screen.width;
                     float x2 = obj.x2 * Screen.width;
-                    float y1 = obj.y1 * Screen.height;
+                    float y1 = ((obj.y1 * -1) + 1) * Screen.height;
                     float y2 = ((obj.y2 * -1) + 1) * Screen.height;
 
                     coords.x = (x1 + x2) / 2;
-                    coords.y = y2;
+                    coords.y = (y2 + y1) / 2;
                     coords.z = 0;
 
                     Ray ray = mainCamera.ScreenPointToRay(coords);
+                    Debug.Log(coords);
                     Debug.DrawRay(ray.origin, ray.direction * 100, Color.red);
 
 
