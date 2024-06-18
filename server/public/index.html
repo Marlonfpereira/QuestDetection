@@ -42,7 +42,7 @@
     }
 
     try {
-      captureStream = await navigator.mediaDevices.getUserMedia({
+      captureStream = await navigator.mediaDevices.getDisplayMedia({
         video: true,
         audio: false,
       });

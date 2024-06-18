@@ -47,6 +47,7 @@ wsServer.on("connection", (ws) => {
 });
 
 app.get("/predictions", (req, res) => {
+    console.log(predictions);
     res.send({ predictions });
 });
 
