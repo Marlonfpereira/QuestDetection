@@ -5,15 +5,19 @@ using UnityEngine.Networking; // import UnityWebRequest
 using Newtonsoft.Json;
 
 
-public class ObjectDetector : MonoBehaviour
+public class DetectionDebuger : MonoBehaviour
 {
     // The prefab to spawn
     public GameObject objectLoader;
     public GameObject objectToSpawn;
     public LayerMask raycastLayer;
     public Camera mainCamera;
+    public GameObject point;
+    public GameObject point1;
+    public GameObject point2;
+    public GameObject point3;
+    public GameObject point4;
     private Vector3 coords;
-    
     private void Start()
     {
 
@@ -21,8 +25,11 @@ public class ObjectDetector : MonoBehaviour
 
     void Update()
     {
+
         Ray ray = mainCamera.ScreenPointToRay(coords);
         Debug.DrawRay(ray.origin, ray.direction * 100, Color.red);
+
+
 
         StartCoroutine(GetDataFromAPI());
     }
@@ -55,15 +62,38 @@ public class ObjectDetector : MonoBehaviour
                     float y2 = ((obj.y2 * -1) + 1) * Screen.height;
 
                     coords.x = (x1 + x2) / 2;
-                    coords.y = y2;
+                    coords.y = y2;//(y2 + y1) / 2;
                     coords.z = 0;
 
                     Ray ray = mainCamera.ScreenPointToRay(coords);
-                    Debug.DrawRay(ray.origin, ray.direction * 100, Color.red);
+                    // Debug.Log(coords);
+                    // Debug.DrawRay(ray.origin, ray.direction * 100, Color.red);
+
+                    Ray ray1 = mainCamera.ScreenPointToRay(new Vector3(x1, y1, 0));
+                    Ray ray2 = mainCamera.ScreenPointToRay(new Vector3(x2, y2, 0));
+                    Ray ray3 = mainCamera.ScreenPointToRay(new Vector3(x1, y2, 0));
+                    Ray ray4 = mainCamera.ScreenPointToRay(new Vector3(x2, y1, 0));
+
 
                     RaycastHit hit;
+
+                    if (Physics.Raycast(ray1, out hit, 100, raycastLayer))
+                        point1.transform.position = hit.point;
+
+                    if (Physics.Raycast(ray2, out hit, 100, raycastLayer))
+                        point2.transform.position = hit.point;
+
+                    if (Physics.Raycast(ray3, out hit, 100, raycastLayer))
+                        point3.transform.position = hit.point;
+
+                    if (Physics.Raycast(ray4, out hit, 100, raycastLayer))
+                        point4.transform.position = hit.point;
+
                     if (Physics.Raycast(ray, out hit, 100, raycastLayer))
                     {
+                        point.transform.position = hit.point;
+                        // Debug.Log(obj.label + " hit " + hit.collider.gameObject.name);
+
                         GameObject currentObject = Instantiate(objectToSpawn, hit.point, Quaternion.identity);
                         currentObject.transform.parent = objectLoader.transform;
                     }
@@ -73,20 +103,4 @@ public class ObjectDetector : MonoBehaviour
 
     }
 
-}
-
-
-class ObjectsList
-{
-    public DetectedObject[] predictions;
-}
-
-class DetectedObject
-{
-
-    public float x1;
-    public float y1;
-    public float x2;
-    public float y2;
-    public string label;
 }
