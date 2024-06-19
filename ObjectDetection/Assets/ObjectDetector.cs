@@ -86,18 +86,18 @@ public class ObjectDetector : MonoBehaviour
                     if (Physics.Raycast(ray, out hit, 100, raycastLayer))
                     {
                         // GameObject currentObject = Instantiate(objectToSpawn, hit.point, Quaternion.identity);
-                        // if (obj.label == "cellphone")
-                            // allObjects["cellphone"].transform.position = hit.point;
-                        // else if (obj.label == "laptop")
-                            // allObjects["laptop"].transform.position = hit.point;
-                        // else if (obj.label == "mouse")
-                            // allObjects["mouse"].transform.position = hit.point;
-                        // else if (obj.label == "tv")
-                            // allObjects["tv"].transform.position = hit.point;
                         if (obj.label == "bottle")
                             allObjects["bottle"].transform.position = hit.point;
-                        // else if (obj.label == "keyboard")
-                            // allObjects["keyboard"].transform.position = hit.point;
+                        else if (obj.label == "cellphone")
+                            allObjects["cellphone"].transform.position = hit.point;
+                        // else if (obj.label == "laptop")
+                        //     allObjects["laptop"].transform.position = hit.point;
+                        else if (obj.label == "mouse")
+                            allObjects["mouse"].transform.position = hit.point;
+                        else if (obj.label == "tv")
+                            allObjects["tv"].transform.position = hit.point;
+                        else if (obj.label == "keyboard")
+                            allObjects["keyboard"].transform.position = hit.point;
                         // else
                         //     allObjects["standard"].transform.position = hit.point;
                     }

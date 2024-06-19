@@ -17,6 +17,10 @@ public class DetectionDebuger : MonoBehaviour
     public GameObject point2;
     public GameObject point3;
     public GameObject point4;
+    public GameObject corner1;
+    public GameObject corner2;
+    public GameObject corner3;
+    public GameObject corner4;
     private Vector3 coords;
     private void Start()
     {
@@ -94,9 +98,23 @@ public class DetectionDebuger : MonoBehaviour
                         point.transform.position = hit.point;
                         // Debug.Log(obj.label + " hit " + hit.collider.gameObject.name);
 
-                        GameObject currentObject = Instantiate(objectToSpawn, hit.point, Quaternion.identity);
-                        currentObject.transform.parent = objectLoader.transform;
+                        // GameObject currentObject = Instantiate(objectToSpawn, hit.point, Quaternion.identity);
+                        // currentObject.transform.parent = objectLoader.transform;
                     }
+
+                    Ray cornerRay1 = mainCamera.ScreenPointToRay(new Vector3(0, 0, 0));
+                    Ray cornerRay2 = mainCamera.ScreenPointToRay(new Vector3(0, Screen.height, 0));
+                    Ray cornerRay3 = mainCamera.ScreenPointToRay(new Vector3(Screen.width, 0, 0));
+                    Ray cornerRay4 = mainCamera.ScreenPointToRay(new Vector3(Screen.width, Screen.height, 0));
+
+                    if (Physics.Raycast(cornerRay1, out hit, 100, raycastLayer))
+                        corner1.transform.position = hit.point;
+                    if (Physics.Raycast(cornerRay2, out hit, 100, raycastLayer))
+                        corner2.transform.position = hit.point;
+                    if (Physics.Raycast(cornerRay3, out hit, 100, raycastLayer))
+                        corner3.transform.position = hit.point;
+                    if (Physics.Raycast(cornerRay4, out hit, 100, raycastLayer))
+                        corner4.transform.position = hit.point;
                 }
             }
         }
