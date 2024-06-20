@@ -1,4 +1,5 @@
 <html>
+
 <head>
   <title>Object Detection</title>
   <script src="https://unpkg.com/ml5@0.12.2/dist/ml5.min.js"></script>
@@ -8,7 +9,8 @@
   <button id="captureScreenButton" style="display: none" onclick="getScreenCapture()">
     capture screen
   </button>
-  <video id="video" autoplay muted style="width: 100vw; height: 100vh"></video>
+  <video id="video" autoplay muted style="display: none"></video>
+  <canvas id="canvas" style="width: 100%; height: 100%"></canvas>
 </body>
 
 <script>
@@ -61,7 +63,8 @@
   }
   video.onloadeddata = () => {
     console.log("loaded data");
-
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
     detect();
   };
 
@@ -79,12 +82,12 @@
     if (!captureStream) {
       return;
     }
-    console.log("detect");
+    // console.log("detect");
     objectDetector.detect(video, onObjectDetection);
   }
 
   function onObjectDetection(error, results) {
-    console.log(error, results);
+    // console.log(error, results);
     if (error) {
       console.log(error);
       return;
@@ -98,16 +101,44 @@
         const y = obj.y / video.videoHeight;
         const width = obj.width / video.videoWidth;
         const height = obj.height / video.videoHeight;
-        
-        outputObj.push({x1: x, y1: y, x2: x + width, y2: y + height, label: obj.label});
-      }
 
-      console.log('sending', outputObj)
+        outputObj.push({ x1: x, y1: y, x2: x + width, y2: y + height, label: obj.label });
+      }
+      
+      // console.log('sending', outputObj)
       sendMessage(outputObj)
+      draw()
     }
 
     detect();
   }
+
+  const canvasContext = canvas.getContext("2d");
+  function draw() {
+      const ctx = canvasContext;
+      const { width, height } = canvas;
+
+      ctx.fillStyle = "#000000";
+      ctx.fillRect(0, 0, width, height);
+
+      ctx.drawImage(video, 0, 0);
+      for (let i = 0; i < objects.length; i += 1) {
+        ctx.font = "16px Arial";
+        ctx.fillStyle = "green";
+        ctx.fillText(objects[i].label, objects[i].x + 4, objects[i].y + 16);
+
+        ctx.beginPath();
+        ctx.rect(
+          objects[i].x,
+          objects[i].y,
+          objects[i].width,
+          objects[i].height
+        );
+        ctx.strokeStyle = "green";
+        ctx.stroke();
+        ctx.closePath();
+      }
+    }
 
   setupObjectDetection();
 </script>
