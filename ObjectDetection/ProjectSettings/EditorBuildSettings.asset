@@ -11,9 +11,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/debugScene.unity
     guid: 93e7087b6255ff44db64ed4dbcf52111
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/tutorialScene.unity
     guid: 0e255cb4f2c454040a9d4a2183db22df
+  - enabled: 1
+    path: Assets/Scenes/triggerDetection.unity
+    guid: d3969af879207964caed5bcc77468ff6
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 244840a7f447b3f479d48466b7b17a19,
       type: 2}
