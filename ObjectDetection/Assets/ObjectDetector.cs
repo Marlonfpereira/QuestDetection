@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking; // import UnityWebRequest
+using UnityEngine.Networking;
 using Newtonsoft.Json;
 
 
