@@ -54,7 +54,7 @@ public class ObjectDetector : MonoBehaviour
 
     IEnumerator GetDataFromAPI()
     {
-        using (UnityWebRequest www = UnityWebRequest.Get("http://192.168.137.41/predictions"))
+        using (UnityWebRequest www = UnityWebRequest.Get("http://192.168.137.1/predictions"))
         {
             yield return www.SendWebRequest();
 
