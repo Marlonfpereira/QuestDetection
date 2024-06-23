@@ -15,8 +15,9 @@ public class PassthroughManager : MonoBehaviour
 
     public Camera mainCamera;
     public GameObject objectLoader;
-    public GameObject test;
-    private Vector3 coords;
+    public Material material;
+
+    private Ray ray1, ray2, ray3, ray4;
 
     void Start()
     {
@@ -24,7 +25,6 @@ public class PassthroughManager : MonoBehaviour
         meshRenderer.enabled = isPassthrough;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (OVRInput.GetDown(OVRInput.Button.Three) || OVRInput.GetDown(OVRInput.Button.Four))
@@ -66,21 +66,29 @@ public class PassthroughManager : MonoBehaviour
 
                     float x1 = obj.x1 * Screen.width;
                     float x2 = obj.x2 * Screen.width;
+                    float y1 = ((obj.y1 * -1) + 1) * Screen.height;
                     float y2 = ((obj.y2 * -1) + 1) * Screen.height;
 
-                    coords.x = (x1 + x2) / 2;
-                    coords.y = y2;
-                    coords.z = 0;
+                    ray1 = mainCamera.ScreenPointToRay(new Vector3(x1, y1, 0));
+                    ray2 = mainCamera.ScreenPointToRay(new Vector3(x2, y1, 0));
+                    ray3 = mainCamera.ScreenPointToRay(new Vector3(x1, y2, 0));
+                    ray4 = mainCamera.ScreenPointToRay(new Vector3(x2, y2, 0));
 
-                    Ray ray = mainCamera.ScreenPointToRay(coords);
-                    RaycastHit hit;
-                    if (Physics.Raycast(ray, out hit, 100))
+                    RaycastHit hit1, hit2, hit3, hit4;
+                    if (Physics.Raycast(ray1, out hit1, 100) && Physics.Raycast(ray2, out hit2, 100) && Physics.Raycast(ray3, out hit3, 100) && Physics.Raycast(ray4, out hit4, 100))
                     {
-                        test.transform.position = hit.point;
+                        Mesh mesh = new Mesh();
+                        mesh.vertices = new Vector3[] { hit1.point, hit2.point, hit3.point, hit4.point };
+                        mesh.triangles = new int[] { 0, 1, 2, 3, 2, 1 };
+
+                        GameObject meshObject = new GameObject("Mesh");
+                        meshObject.AddComponent<MeshFilter>().mesh = mesh;
+                        meshObject.AddComponent<MeshRenderer>();
+                        meshObject.GetComponent<MeshRenderer>().material = material;
+                        meshObject.transform.parent = objectLoader.transform;
                     }
                 }
             }
         }
     }
-
 }
