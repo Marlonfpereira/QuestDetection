@@ -45,7 +45,7 @@ public class PassthroughManager : MonoBehaviour
 
     IEnumerator GetDataFromAPI()
     {
-        using (UnityWebRequest www = UnityWebRequest.Get("http://192.168.137.41/predictions"))
+        using (UnityWebRequest www = UnityWebRequest.Get("http://192.168.137.1/centerPrediction"))
         {
             Debug.Log("API called");
             yield return www.SendWebRequest();

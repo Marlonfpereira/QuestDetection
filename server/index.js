@@ -51,3 +51,22 @@ app.get("/predictions", (req, res) => {
     res.send({ predictions });
 });
 
+app.get("/centerPrediction", (req, res) => {
+    let distance = Infinity, closest = null;
+
+    predictions.forEach((prediction) => {
+        console.log(prediction);
+        let current = { x: (prediction.x1 + prediction.x2) / 2, y: (prediction.y1 + prediction.y2) / 2 };
+        console.log(current);
+        let d = Math.sqrt(Math.pow(current.x - 0.5, 2) + Math.pow(current.y - 0.5, 2));
+        console.log(d);
+
+        if (d < distance) {
+            distance = d;
+            closest = prediction;
+        }
+    });
+
+    console.log(closest);
+    res.send(closest);
+})
