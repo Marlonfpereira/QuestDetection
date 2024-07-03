@@ -92,7 +92,7 @@
       console.log(error);
       return;
     }
-    objects = results;
+    objects = results.filter((obj) => obj.label !== "person");
 
     if (objects) {
       let outputObj = []
