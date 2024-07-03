@@ -104,7 +104,7 @@
 
         outputObj.push({ x1: x, y1: y, x2: x + width, y2: y + height, label: obj.label });
       }
-      
+
       // console.log('sending', outputObj)
       sendMessage(outputObj)
       draw()
@@ -115,30 +115,65 @@
 
   const canvasContext = canvas.getContext("2d");
   function draw() {
-      const ctx = canvasContext;
-      const { width, height } = canvas;
+    let color = "green"
+    const ctx = canvasContext;
+    const { width, height } = canvas;
 
-      ctx.fillStyle = "#000000";
-      ctx.fillRect(0, 0, width, height);
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(0, 0, width, height);
 
-      ctx.drawImage(video, 0, 0);
+    let distance = Infinity, closestIndex = null;
+
+    ctx.drawImage(video, 0, 0);
+    if (objects.length > 1) {
       for (let i = 0; i < objects.length; i += 1) {
-        ctx.font = "16px Arial";
-        ctx.fillStyle = "green";
-        ctx.fillText(objects[i].label, objects[i].x + 4, objects[i].y + 16);
+        const prediction = objects[i]
+        let current = { x: (prediction.x1 + prediction.x2) / 2, y: (prediction.y1 + prediction.y2) / 2 };
 
-        ctx.beginPath();
-        ctx.rect(
-          objects[i].x,
-          objects[i].y,
-          objects[i].width,
-          objects[i].height
-        );
-        ctx.strokeStyle = "green";
-        ctx.stroke();
-        ctx.closePath();
+        let d = Math.sqrt(Math.pow(current.x - 0.5, 2) + Math.pow(current.y - 0.5, 2));
+
+        if (d < distance) {
+          distance = d;
+          closestIndex = i;
+        }
       }
+      let closest = objects.splice(closestIndex, 1)[0]
+
+      ctx.font = "16px Arial";
+      ctx.fillStyle = "red";
+      ctx.fillText(closest.label, closest.x + 4, closest.y + 16);
+
+      ctx.beginPath();
+      ctx.rect(
+        closest.x,
+        closest.y,
+        closest.width,
+        closest.height
+      );
+      ctx.strokeStyle = "red";
+      ctx.stroke();
+      ctx.closePath();
+    } else {
+      color = "red";
     }
+
+    for (let i = 0; i < objects.length; i += 1) {
+      ctx.font = "16px Arial";
+      ctx.fillStyle = color;
+      ctx.fillText(objects[i].label, objects[i].x + 4, objects[i].y + 16);
+
+      ctx.beginPath();
+      ctx.rect(
+        objects[i].x,
+        objects[i].y,
+        objects[i].width,
+        objects[i].height
+      );
+      ctx.strokeStyle = color;
+      ctx.stroke();
+      ctx.closePath();
+    }
+  }
 
   setupObjectDetection();
 </script>
