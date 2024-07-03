@@ -54,40 +54,37 @@ public class PassthroughManager : MonoBehaviour
             {
                 string response = www.downloadHandler.text;
 
-                ObjectsList detectedObject = JsonConvert.DeserializeObject<ObjectsList>(response);
+                DetectedObject detectedObject = JsonConvert.DeserializeObject<DetectedObject>(response);
 
                 foreach (Transform child in objectLoader.transform)
                 {
                     GameObject.Destroy(child.gameObject);
                 }
-                foreach (DetectedObject obj in detectedObject.predictions)
+
+                float x1 = detectedObject.x1 * Screen.width;
+                float x2 = detectedObject.x2 * Screen.width;
+                float y1 = ((detectedObject.y1 * -1) + 1) * Screen.height;
+                float y2 = ((detectedObject.y2 * -1) + 1) * Screen.height;
+
+                ray1 = mainCamera.ScreenPointToRay(new Vector3(x1, y1, 0));
+                ray2 = mainCamera.ScreenPointToRay(new Vector3(x2, y1, 0));
+                ray3 = mainCamera.ScreenPointToRay(new Vector3(x1, y2, 0));
+                ray4 = mainCamera.ScreenPointToRay(new Vector3(x2, y2, 0));
+
+                RaycastHit hit1, hit2, hit3, hit4;
+                if (Physics.Raycast(ray1, out hit1, 100) && Physics.Raycast(ray2, out hit2, 100) && Physics.Raycast(ray3, out hit3, 100) && Physics.Raycast(ray4, out hit4, 100))
                 {
-                    if (obj.label == "person") continue;
+                    Mesh mesh = new Mesh();
+                    mesh.vertices = new Vector3[] { hit1.point, hit2.point, hit3.point, hit4.point };
+                    mesh.triangles = new int[] { 0, 1, 2, 3, 2, 1 };
 
-                    float x1 = obj.x1 * Screen.width;
-                    float x2 = obj.x2 * Screen.width;
-                    float y1 = ((obj.y1 * -1) + 1) * Screen.height;
-                    float y2 = ((obj.y2 * -1) + 1) * Screen.height;
-
-                    ray1 = mainCamera.ScreenPointToRay(new Vector3(x1, y1, 0));
-                    ray2 = mainCamera.ScreenPointToRay(new Vector3(x2, y1, 0));
-                    ray3 = mainCamera.ScreenPointToRay(new Vector3(x1, y2, 0));
-                    ray4 = mainCamera.ScreenPointToRay(new Vector3(x2, y2, 0));
-
-                    RaycastHit hit1, hit2, hit3, hit4;
-                    if (Physics.Raycast(ray1, out hit1, 100) && Physics.Raycast(ray2, out hit2, 100) && Physics.Raycast(ray3, out hit3, 100) && Physics.Raycast(ray4, out hit4, 100))
-                    {
-                        Mesh mesh = new Mesh();
-                        mesh.vertices = new Vector3[] { hit1.point, hit2.point, hit3.point, hit4.point };
-                        mesh.triangles = new int[] { 0, 1, 2, 3, 2, 1 };
-
-                        GameObject meshObject = new GameObject("Mesh");
-                        meshObject.AddComponent<MeshFilter>().mesh = mesh;
-                        meshObject.AddComponent<MeshRenderer>();
-                        meshObject.GetComponent<MeshRenderer>().material = material;
-                        meshObject.transform.parent = objectLoader.transform;
-                    }
+                    GameObject meshObject = new GameObject("Mesh");
+                    meshObject.AddComponent<MeshFilter>().mesh = mesh;
+                    meshObject.AddComponent<MeshRenderer>();
+                    meshObject.GetComponent<MeshRenderer>().material = material;
+                    meshObject.transform.parent = objectLoader.transform;
                 }
+
             }
         }
     }
