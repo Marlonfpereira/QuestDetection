@@ -9,39 +9,17 @@ public class ObjectDetector : MonoBehaviour
 {
     // The prefab to spawn
     public GameObject objectLoader;
-    public GameObject bottle;
-    public GameObject cellphone;
-    public GameObject keyboard;
-    public GameObject laptop;
-    public GameObject mouse;
-    public GameObject tv;
-    public GameObject standard;
+    public GameObject shape;
     public LayerMask raycastLayer;
     public Camera mainCamera;
     private Vector3 coords;
-
-    private Dictionary<string, GameObject> allObjects;
-
+    private GameObject point;
+    private GameObject point1;
+    private GameObject point2;
+    private GameObject point3;
+    private GameObject point4;
     private void Start()
     {
-
-        // bottle = Instantiate(bottle, Vector3.zero, Quaternion.identity);
-        // cellphone = Instantiate(cellphone, Vector3.zero, Quaternion.identity);
-        // keyboard = Instantiate(keyboard, Vector3.zero, Quaternion.identity);
-        // laptop = Instantiate(laptop, Vector3.zero, Quaternion.identity);
-        // mouse = Instantiate(mouse, Vector3.zero, Quaternion.identity);
-        // tv = Instantiate(tv, Vector3.zero, Quaternion.identity);
-        // standard = Instantiate(standard, Vector3.zero, Quaternion.identity);
-
-        allObjects = new Dictionary<string, GameObject>(){
-            {"bottle", bottle},
-            {"cellphone", cellphone},
-            {"keyboard", keyboard},
-            {"laptop", laptop},
-            {"mouse", mouse},
-            {"tv", tv},
-            {"standard", standard}
-        };
     }
 
     void Update()
@@ -71,10 +49,9 @@ public class ObjectDetector : MonoBehaviour
                 }
                 foreach (DetectedObject obj in detectedObject.predictions)
                 {
-                    if (obj.label == "person") continue;
-
                     float x1 = obj.x1 * Screen.width;
                     float x2 = obj.x2 * Screen.width;
+                    float y1 = ((obj.y1 * -1) + 1) * Screen.height;
                     float y2 = ((obj.y2 * -1) + 1) * Screen.height;
 
                     coords.x = (x1 + x2) / 2;
@@ -82,24 +59,33 @@ public class ObjectDetector : MonoBehaviour
                     coords.z = 0;
 
                     Ray ray = mainCamera.ScreenPointToRay(coords);
+                    Ray ray1 = mainCamera.ScreenPointToRay(new Vector3(x1, y1, 0));
+                    Ray ray2 = mainCamera.ScreenPointToRay(new Vector3(x2, y1, 0));
+                    Ray ray3 = mainCamera.ScreenPointToRay(new Vector3(x1, y2, 0));
+                    Ray ray4 = mainCamera.ScreenPointToRay(new Vector3(x2, y2, 0));
+
+
                     RaycastHit hit;
+
+                    if (Physics.Raycast(ray3, out hit, 100, raycastLayer))
+                        point3.transform.position = hit.point;
+
+                    if (Physics.Raycast(ray4, out hit, 100, raycastLayer))
+                        point4.transform.position = hit.point;
+
+                    Vector3 widthVector = point4.transform.position - point3.transform.position; 
+                    float width = widthVector.magnitude;
+
+                    float ogWidth = obj.x2 - obj.x1;
+                    float ogHeight = obj.y2 - obj.y1;
+                    float height = (width * ogHeight) / ogWidth;
+
+                    // got the `width` and `height` variables
+
                     if (Physics.Raycast(ray, out hit, 100, raycastLayer))
                     {
-                        // GameObject currentObject = Instantiate(objectToSpawn, hit.point, Quaternion.identity);
-                        if (obj.label == "bottle")
-                            allObjects["bottle"].transform.position = hit.point;
-                        else if (obj.label == "cellphone")
-                            allObjects["cellphone"].transform.position = hit.point;
-                        // else if (obj.label == "laptop")
-                        //     allObjects["laptop"].transform.position = hit.point;
-                        else if (obj.label == "mouse")
-                            allObjects["mouse"].transform.position = hit.point;
-                        else if (obj.label == "tv")
-                            allObjects["tv"].transform.position = hit.point;
-                        else if (obj.label == "keyboard")
-                            allObjects["keyboard"].transform.position = hit.point;
-                        // else
-                        //     allObjects["standard"].transform.position = hit.point;
+                        GameObject currentObject = Instantiate(shape, hit.point, Quaternion.identity);
+                        newScale(currentObject, height, width);
                     }
                 }
             }
@@ -107,6 +93,20 @@ public class ObjectDetector : MonoBehaviour
 
     }
 
+    public void newScale(GameObject theGameObject, float height, float width) {
+
+        float sizex = theGameObject.GetComponent<Renderer>().bounds.size.x;
+        float sizey = theGameObject.GetComponent<Renderer>().bounds.size.y;
+        float sizez = theGameObject.GetComponent<Renderer>().bounds.size.z;
+
+        Vector3 rescale = theGameObject.transform.localScale;
+
+        rescale.x = width * rescale.x / width;
+        rescale.y = height * rescale.y / height;
+        rescale.z = width * rescale.z / width;
+
+        theGameObject.transform.localScale = rescale;
+    }
 }
 
 
