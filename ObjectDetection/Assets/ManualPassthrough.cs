@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.ProBuilder;
@@ -8,21 +7,26 @@ public class ManualPassthrough : MonoBehaviour
 {
     // Start is called before the first frame update
     public Canvas canvas;
-    public MeshRenderer meshRenderer;
+    public MeshRenderer passthroughMesh;
     private bool isPassthrough = false;
-    public GameObject objectLoader;
-    private GameObject meshesLoader;
     public Material passthroughMaterial;
-    public GameObject testSphere;
+    public Material standardMaterial;
     public GameObject rightController;
+    public GameObject controllerSphere;
+    public GameObject vertexSphere;
+    public GameObject meshWrapper;
     private bool triggerPressed = false; 
     private List<GameObject> currentSet = new List<GameObject>();
+    private GameObject cube;
+
 
     void Start()
     {
-        meshesLoader = new GameObject("MeshesLoader");
+        cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        cube.GetComponent<MeshRenderer>().material = standardMaterial;
+        cube.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
         canvas.enabled = isPassthrough;
-        meshRenderer.enabled = isPassthrough;
+        passthroughMesh.enabled = isPassthrough;
     }
 
     void Update()
@@ -34,15 +38,14 @@ public class ManualPassthrough : MonoBehaviour
             isPassthrough = !isPassthrough;
 
             canvas.enabled = isPassthrough;
-            meshRenderer.enabled = isPassthrough;
+            passthroughMesh.enabled = isPassthrough;
         }
 
-        if (OVRInput.Get(OVRInput.RawButton.RIndexTrigger) && !triggerPressed)
+        if (OVRInput.GetDown(OVRInput.RawButton.RIndexTrigger))
         {
             triggerPressed = true;
 
-            GameObject sphere = Instantiate(testSphere, controllerPos, Quaternion.identity);
-            sphere.transform.parent = objectLoader.transform;
+            GameObject sphere = Instantiate(vertexSphere, controllerPos, Quaternion.identity);
             currentSet.Add(sphere);
         }
 
@@ -51,42 +54,35 @@ public class ManualPassthrough : MonoBehaviour
             triggerPressed = false;
         }
 
-        if (OVRInput.Get(OVRInput.Button.One) && currentSet.Count > 2)
+        if (OVRInput.GetDown(OVRInput.Button.One) && currentSet.Count > 2)
         {
-            foreach (Transform child in meshesLoader.transform)
-            {
-                GameObject.Destroy(child.gameObject);
-            }
-
-            var pbMeshObj = new GameObject();
-            ProBuilderMesh pbMesh = pbMeshObj.AddComponent<ProBuilderMesh>();
-
             Vector3[] vertices = new Vector3[currentSet.Count];
+            Vector3 middle = Vector3.zero;
             for (int i = 0; i < currentSet.Count; i++)
-            {
-                vertices[i] = currentSet[i].transform.position;
-            }
+                middle += currentSet[i].transform.position;
+            
+            middle /= currentSet.Count;
+            for (int i = 0; i < currentSet.Count; i++)
+                vertices[i] = currentSet[i].transform.position - middle;
+
+            cube.transform.position = middle;
+            var pbMeshObj = Instantiate(meshWrapper, middle, Quaternion.identity);
+            ProBuilderMesh pbMesh = pbMeshObj.AddComponent<ProBuilderMesh>();
 
             pbMesh.CreateShapeFromPolygon(vertices, 0f, false);
             pbMesh.SetMaterial(pbMesh.faces, passthroughMaterial);
             pbMesh.ToMesh();
             pbMesh.Refresh();
-            pbMeshObj.transform.parent = meshesLoader.transform;
+            
+            MeshCollider meshCollider = pbMeshObj.AddComponent<MeshCollider>();
+            meshCollider.sharedMesh = pbMeshObj.GetComponent<MeshFilter>().mesh;
         }
 
         if (OVRInput.Get(OVRInput.Button.Two))
         {
             currentSet.Clear();
-            foreach (Transform child in objectLoader.transform)
-            {
-                GameObject.Destroy(child.gameObject);
-            }
-            foreach (Transform child in meshesLoader.transform)
-            {
-                GameObject.Destroy(child.gameObject);
-            }
         }
 
-        testSphere.transform.position = controllerPos;
+        controllerSphere.transform.position = controllerPos;
     }
 }
