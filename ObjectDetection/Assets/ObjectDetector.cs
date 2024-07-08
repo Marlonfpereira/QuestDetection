@@ -12,6 +12,7 @@ public class ObjectDetector : MonoBehaviour
     public GameObject shape;
     public LayerMask raycastLayer;
     public Camera mainCamera;
+   
     private Vector3 coords;
     private GameObject point;
     private GameObject point1;
@@ -20,12 +21,15 @@ public class ObjectDetector : MonoBehaviour
     private GameObject point4;
     private void Start()
     {
+        coords = new Vector3();
+        point3 = new GameObject();
+        point4 = new GameObject();
     }
 
     void Update()
     {
-        Ray ray = mainCamera.ScreenPointToRay(coords);
-        Debug.DrawRay(ray.origin, ray.direction * 100, Color.red);
+        //Ray ray = mainCamera.ScreenPointToRay(coords);
+        //Debug.DrawRay(ray.origin, ray.direction * 100, Color.red);
 
         StartCoroutine(GetDataFromAPI());
     }
@@ -43,12 +47,14 @@ public class ObjectDetector : MonoBehaviour
                 ObjectsList detectedObject = JsonConvert.DeserializeObject<ObjectsList>(response);
 
 
+                if(detectedObject.predictions.Length != 0) 
                 foreach (Transform child in objectLoader.transform)
                 {
                     GameObject.Destroy(child.gameObject);
                 }
                 foreach (DetectedObject obj in detectedObject.predictions)
                 {
+                    Debug.Log(obj.label);
                     float x1 = obj.x1 * Screen.width;
                     float x2 = obj.x2 * Screen.width;
                     float y1 = ((obj.y1 * -1) + 1) * Screen.height;
@@ -84,8 +90,10 @@ public class ObjectDetector : MonoBehaviour
 
                     if (Physics.Raycast(ray, out hit, 100, raycastLayer))
                     {
+                        Debug.Log(width);
                         GameObject currentObject = Instantiate(shape, hit.point, Quaternion.identity);
-                        newScale(currentObject, height, width);
+                        newScale(currentObject, height*10, width*10);
+                        currentObject.transform.parent = objectLoader.transform;
                     }
                 }
             }
@@ -104,6 +112,8 @@ public class ObjectDetector : MonoBehaviour
         rescale.x = width * rescale.x / width;
         rescale.y = height * rescale.y / height;
         rescale.z = width * rescale.z / width;
+
+        Debug.Log(rescale);
 
         theGameObject.transform.localScale = rescale;
     }

@@ -4413,7 +4413,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 421779504}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 802aa7dbe3cca2c41a4d621d4c4c25ab, type: 3}
   m_Name: 
@@ -12046,7 +12046,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectLoader: {fileID: 1594057609}
-  shape: {fileID: 0}
+  shape: {fileID: 1339652328}
   raycastLayer:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -13050,7 +13050,6 @@ GameObject:
   - component: {fileID: 1339652330}
   - component: {fileID: 1339652329}
   - component: {fileID: 1339652332}
-  - component: {fileID: 1339652333}
   m_Layer: 6
   m_Name: ObjectWithPasstrough
   m_TagString: Untagged
@@ -13144,19 +13143,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1339652333
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1339652328}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae9b92a56a129364187645caad30c234, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &1353010838
 GameObject:
   m_ObjectHideFlags: 0
