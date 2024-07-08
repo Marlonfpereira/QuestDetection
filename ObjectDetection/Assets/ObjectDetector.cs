@@ -12,7 +12,7 @@ public class ObjectDetector : MonoBehaviour
     public GameObject shape;
     public LayerMask raycastLayer;
     public Camera mainCamera;
-    private bool UpdatePosition = false;
+   
     private Vector3 coords;
     private GameObject point;
     private GameObject point1;
@@ -24,7 +24,6 @@ public class ObjectDetector : MonoBehaviour
         coords = new Vector3();
         point3 = new GameObject();
         point4 = new GameObject();
-        shape.GetComponent<Rigidbody>().useGravity = false;
     }
 
     void Update()
@@ -53,54 +52,48 @@ public class ObjectDetector : MonoBehaviour
                 {
                     GameObject.Destroy(child.gameObject);
                 }
-
-                if (UpdatePosition)
+                foreach (DetectedObject obj in detectedObject.predictions)
                 {
-                    foreach (DetectedObject obj in detectedObject.predictions)
+                    Debug.Log(obj.label);
+                    float x1 = obj.x1 * Screen.width;
+                    float x2 = obj.x2 * Screen.width;
+                    float y1 = ((obj.y1 * -1) + 1) * Screen.height;
+                    float y2 = ((obj.y2 * -1) + 1) * Screen.height;
+
+                    coords.x = (x1 + x2) / 2;
+                    coords.y = y2;
+                    coords.z = 0;
+
+                    Ray ray = mainCamera.ScreenPointToRay(coords);
+                    Ray ray1 = mainCamera.ScreenPointToRay(new Vector3(x1, y1, 0));
+                    Ray ray2 = mainCamera.ScreenPointToRay(new Vector3(x2, y1, 0));
+                    Ray ray3 = mainCamera.ScreenPointToRay(new Vector3(x1, y2, 0));
+                    Ray ray4 = mainCamera.ScreenPointToRay(new Vector3(x2, y2, 0));
+
+
+                    RaycastHit hit;
+
+                    if (Physics.Raycast(ray3, out hit, 100, raycastLayer))
+                        point3.transform.position = hit.point;
+
+                    if (Physics.Raycast(ray4, out hit, 100, raycastLayer))
+                        point4.transform.position = hit.point;
+
+                    Vector3 widthVector = point4.transform.position - point3.transform.position; 
+                    float width = widthVector.magnitude;
+
+                    float ogWidth = obj.x2 - obj.x1;
+                    float ogHeight = obj.y2 - obj.y1;
+                    float height = (width * ogHeight) / ogWidth;
+
+                    // got the `width` and `height` variables
+
+                    if (Physics.Raycast(ray, out hit, 100, raycastLayer))
                     {
-                        Debug.Log(obj.label);
-                        float x1 = obj.x1 * Screen.width;
-                        float x2 = obj.x2 * Screen.width;
-                        float y1 = ((obj.y1 * -1) + 1) * Screen.height;
-                        float y2 = ((obj.y2 * -1) + 1) * Screen.height;
-
-                        coords.x = (x1 + x2) / 2;
-                        coords.y = y2;
-                        coords.z = 0;
-
-                        Ray ray = mainCamera.ScreenPointToRay(coords);
-                        Ray ray1 = mainCamera.ScreenPointToRay(new Vector3(x1, y1, 0));
-                        Ray ray2 = mainCamera.ScreenPointToRay(new Vector3(x2, y1, 0));
-                        Ray ray3 = mainCamera.ScreenPointToRay(new Vector3(x1, y2, 0));
-                        Ray ray4 = mainCamera.ScreenPointToRay(new Vector3(x2, y2, 0));
-
-
-                        RaycastHit hit;
-
-                        if (Physics.Raycast(ray3, out hit, 100, raycastLayer))
-                            point3.transform.position = hit.point;
-
-                        if (Physics.Raycast(ray4, out hit, 100, raycastLayer))
-                            point4.transform.position = hit.point;
-
-                        Vector3 widthVector = point4.transform.position - point3.transform.position;
-                        float width = widthVector.magnitude;
-
-                        float ogWidth = obj.x2 - obj.x1;
-                        float ogHeight = obj.y2 - obj.y1;
-                        float height = (width * ogHeight) / ogWidth;
-                        shape.GetComponent<Rigidbody>().useGravity = true;
-
-                        // got the `width` and `height` variables
-
-                        if (Physics.Raycast(ray, out hit, 100, raycastLayer))
-                        {
-                            Debug.Log(width);
-                            GameObject currentObject = Instantiate(shape, hit.point, Quaternion.identity);
-                            newScale(currentObject, height * 100, width * 100);
-                            currentObject.transform.parent = objectLoader.transform;
-                            currentObject.GetComponent<Rigidbody>().useGravity = true;
-                        }
+                        Debug.Log(width);
+                        GameObject currentObject = Instantiate(shape, hit.point, Quaternion.identity);
+                        newScale(currentObject, height*10, width*10);
+                        currentObject.transform.parent = objectLoader.transform;
                     }
                 }
             }
@@ -123,11 +116,6 @@ public class ObjectDetector : MonoBehaviour
         Debug.Log(rescale);
 
         theGameObject.transform.localScale = rescale;
-    }
-
-    public void SetUpdatePositionTrue()
-    {
-        UpdatePosition = true;
     }
 }
 
