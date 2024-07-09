@@ -54,6 +54,8 @@ public class ObjectDetector : MonoBehaviour
                 }
                 foreach (DetectedObject obj in detectedObject.predictions)
                 {
+                    if(obj.label == "person")
+                        continue;
                     Debug.Log(obj.label);
                     float x1 = obj.x1 * Screen.width;
                     float x2 = obj.x2 * Screen.width;
@@ -92,7 +94,7 @@ public class ObjectDetector : MonoBehaviour
                     {
                         Debug.Log(width);
                         GameObject currentObject = Instantiate(shape, hit.point, Quaternion.identity);
-                        newScale(currentObject, height*10, width*10);
+                        newScale(currentObject, height, width);
                         currentObject.transform.parent = objectLoader.transform;
                     }
                 }
@@ -102,21 +104,14 @@ public class ObjectDetector : MonoBehaviour
     }
 
     public void newScale(GameObject theGameObject, float height, float width) {
+    // Create a new Vector3 with the desired scale values
+    Vector3 rescale = new Vector3(width, height, width);
 
-        float sizex = theGameObject.GetComponent<Renderer>().bounds.size.x;
-        float sizey = theGameObject.GetComponent<Renderer>().bounds.size.y;
-        float sizez = theGameObject.GetComponent<Renderer>().bounds.size.z;
+    //Debug.Log(rescale);
 
-        Vector3 rescale = theGameObject.transform.localScale;
-
-        rescale.x = width * rescale.x / width;
-        rescale.y = height * rescale.y / height;
-        rescale.z = width * rescale.z / width;
-
-        Debug.Log(rescale);
-
-        theGameObject.transform.localScale = rescale;
-    }
+    // Set the new scale to the GameObject's transform
+    theGameObject.transform.localScale = rescale;
+}
 }
 
 
