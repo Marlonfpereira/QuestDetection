@@ -13,6 +13,7 @@ public class ObjectDetector : MonoBehaviour
     public LayerMask raycastLayer;
     public Camera mainCamera;
    
+    private bool enableDetection = false;
     private Vector3 coords;
     private GameObject point;
     private GameObject point1;
@@ -30,8 +31,10 @@ public class ObjectDetector : MonoBehaviour
     {
         //Ray ray = mainCamera.ScreenPointToRay(coords);
         //Debug.DrawRay(ray.origin, ray.direction * 100, Color.red);
-
-        StartCoroutine(GetDataFromAPI());
+        if (enableDetection)
+        {
+            StartCoroutine(GetDataFromAPI());
+        }
     }
 
     IEnumerator GetDataFromAPI()
@@ -94,7 +97,7 @@ public class ObjectDetector : MonoBehaviour
                     {
                         Debug.Log(width);
                         GameObject currentObject = Instantiate(shape, hit.point, Quaternion.identity);
-                        newScale(currentObject, height, width);
+                        newScale(currentObject, ogHeight, width);
                         currentObject.transform.parent = objectLoader.transform;
                     }
                 }
@@ -103,15 +106,24 @@ public class ObjectDetector : MonoBehaviour
 
     }
 
-    public void newScale(GameObject theGameObject, float height, float width) {
+    public void setEnableDetectionTrue()
+    {
+        enableDetection = true;
+    }
+
+    public void setEnableDetectionFalse()
+    {
+        enableDetection = false;
+    }
+
+
+    public void newScale(GameObject theGameObject, float height, float width)  
+    {
     // Create a new Vector3 with the desired scale values
     Vector3 rescale = new Vector3(width, height, width);
-
-    //Debug.Log(rescale);
-
     // Set the new scale to the GameObject's transform
     theGameObject.transform.localScale = rescale;
-}
+    }
 }
 
 
