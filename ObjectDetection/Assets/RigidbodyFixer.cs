@@ -5,7 +5,7 @@ using UnityEngine;
 public class RigidbodyFixer : MonoBehaviour
 {
     private Transform parentTransform;
-    private SphereCollider sphereCollider;
+    private CapsuleCollider capsuleCollider;
 
     // Start is called before the first frame update
     void Start()
@@ -13,24 +13,37 @@ public class RigidbodyFixer : MonoBehaviour
         // Get the parent transform
         parentTransform = transform.parent;
 
-        // Get the SphereCollider component attached to this object
-        sphereCollider = GetComponent<SphereCollider>();
+        // Get the CapsuleCollider component attached to this object
+        capsuleCollider = GetComponent<CapsuleCollider>();
+
+        // Set the direction to X-Axis
+        capsuleCollider.direction = 0; // 0 corresponds to X-axis
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (parentTransform != null && sphereCollider != null)
+        if (parentTransform != null && capsuleCollider != null)
         {
-            // Calculate the new radius based on the parent's smaller scale in X and Y
-            if (parentTransform.localScale.x < parentTransform.localScale.y)
+            if (parentTransform.localScale.y > parentTransform.localScale.x)
             {
-                sphereCollider.radius = parentTransform.localScale.x / 2.5f;
+                capsuleCollider.direction = 1; // 1 corresponds to Y-axis
+                float newRadius = parentTransform.localScale.x / 2.1f;
+                float newHeight = parentTransform.localScale.y;
+                capsuleCollider.radius = newRadius;
+                capsuleCollider.height = newHeight;
             }
             else
             {
-                sphereCollider.radius = parentTransform.localScale.y / 2.5f;
+                capsuleCollider.direction = 0; // 0 corresponds to X-axis
+                float newRadius = parentTransform.localScale.y / 2.1f;
+                float newHeight = parentTransform.localScale.x;
+                capsuleCollider.radius = newRadius;
+                capsuleCollider.height = newHeight;
             }
+                
+                
+
         }
     }
 }
