@@ -88,4 +88,11 @@ public class ManualPassthrough : MonoBehaviour
 
         controllerSphere.transform.position = controllerPos;
     }
+    
+    public void switchMode()
+    {
+        isPassthrough = !isPassthrough;
+        canvas.enabled = isPassthrough;
+        passthroughMesh.enabled = isPassthrough;
+    }
 }
