@@ -10628,6 +10628,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 124957641}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &485797510 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1030974498, guid: abc00000000014923996726058119157,
+    type: 3}
+  m_PrefabInstance: {fileID: 262648011}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &486680686
 GameObject:
   m_ObjectHideFlags: 0
@@ -20421,6 +20427,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1796135282}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &961514060 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1030974811, guid: abc00000000002102194570356099522,
+    type: 3}
+  m_PrefabInstance: {fileID: 1857321158}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &969492992
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24287,7 +24299,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 984354080134106425, guid: c2e00db6d2dfa42ac8d821db8d493a44,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1571224567}
   m_SourcePrefab: {fileID: 100100000, guid: c2e00db6d2dfa42ac8d821db8d493a44, type: 3}
 --- !u!1001 &1154762746
 PrefabInstance:
@@ -33141,6 +33157,49 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1181120064}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1571224564 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 984354080134106425, guid: c2e00db6d2dfa42ac8d821db8d493a44,
+    type: 3}
+  m_PrefabInstance: {fileID: 1151998865}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1571224567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571224564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d607ba0c0320e446ba9d62671d9d7a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpawnOnStart: 1
+  TrackUpdates: 1
+  PrefabsToSpawn:
+  - Labels: 8
+    Prefabs:
+    - {fileID: 961514060}
+    PrefabSelection: 0
+    MatchAspectRatio: 1
+    CalculateFacingDirection: 1
+    Scaling: 0
+    Alignment: 0
+    IgnorePrefabSize: 0
+  - Labels: 256
+    Prefabs:
+    - {fileID: 485797510}
+    PrefabSelection: 0
+    MatchAspectRatio: 0
+    CalculateFacingDirection: 1
+    Scaling: 0
+    Alignment: 0
+    IgnorePrefabSize: 0
+  SeedValue: 0
+  onPrefabSpawned:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1571562695
 GameObject:
   m_ObjectHideFlags: 0
@@ -42438,7 +42497,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MeshMaterial
       value: 
-      objectReference: {fileID: 2100000, guid: af4e330dddb5f6e4b8a2dcfa733798c0, type: 2}
+      objectReference: {fileID: 2100000, guid: 6624799fc37af2642a4281cc1228cc15, type: 2}
     - target: {fileID: 5456522116536683058, guid: cee191920b8eb41b0960b1082a393a3e,
         type: 3}
       propertyPath: m_LocalPosition.x
