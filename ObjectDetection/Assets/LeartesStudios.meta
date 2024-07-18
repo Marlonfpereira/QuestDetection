@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:ObjectDetection/Assets/LeartesStudios.meta
 guid: a436f54bf279b934985ffb78381526a8
+========
+guid: a9edef1abfd1cba4abb151e7568e8bd5
+>>>>>>>> origin/triggerDetection:ObjectDetection/Assets/Plugins.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
