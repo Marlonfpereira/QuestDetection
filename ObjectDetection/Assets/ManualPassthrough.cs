@@ -14,6 +14,7 @@ public class ManualPassthrough : MonoBehaviour
     private bool isPassthrough = false;
     public Material passthroughMaterial;
     public OVRHand rightHand;
+    public OVRHand leftHand;
     public GameObject controllerSphere;
     public GameObject vertexSphere;
     public GameObject meshWrapper;
@@ -26,6 +27,8 @@ public class ManualPassthrough : MonoBehaviour
     public TextMeshPro buttonText;
     public PokeInteractable createInteractable;
     public PokeInteractable deleteInteractable;
+    public Camera mainCamera;
+    public LayerMask raycastLayer;
 
     void Start()
     {
@@ -41,11 +44,6 @@ public class ManualPassthrough : MonoBehaviour
     void Update()
     {
         Vector3 controllerPos = rightHand.GetComponent<OVRSkeleton>().Bones[8].Transform.position;
-
-        if (OVRInput.GetDown(OVRInput.RawButton.Start))
-        {
-            createInteractable.gameObject.SetActive(!createInteractable.gameObject.activeSelf);
-        }
 
         if (isCreating)
         {
@@ -92,6 +90,16 @@ public class ManualPassthrough : MonoBehaviour
         {
             deleteInteractable.gameObject.SetActive(false);
         }
+
+        Debug.Log(leftHand.GetComponent<OVRSkeleton>().Bones[8].Transform.rotation);
+
+        if(leftHand.GetComponent<OVRSkeleton>().Bones[8].Transform.rotation.x < 0) {
+            createInteractable.gameObject.SetActive(true);
+        } else {
+            deleteInteractable.gameObject.SetActive(false);
+            createInteractable.gameObject.SetActive(false);
+        }
+
     }
     public void ToggleCreate()
     {
@@ -154,12 +162,5 @@ public class ManualPassthrough : MonoBehaviour
 
         if (grabInteractorL.HasSelectedInteractable)
             Destroy(grabInteractorL.SelectedInteractable.transform.parent.gameObject);
-    }
-
-    private void togglePassthrough()
-    {
-        isPassthrough = !isPassthrough;
-        canvas.enabled = isPassthrough;
-        passthroughMesh.enabled = isPassthrough;
     }
 }
