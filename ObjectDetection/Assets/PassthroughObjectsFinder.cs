@@ -5,15 +5,13 @@ using UnityEngine;
 
 public class PassthroughObjectsFinder : MonoBehaviour
 {
-    public OVRHand rightHand;
-    public OVRHand leftHand;
+    public OVRHand handThatPinch;
     public GameObject controllerSphere;
     public GameObject vertexSphere;
     public GameObject objectToSpawn;
 
     private List<GameObject> currentSet = new List<GameObject>();
     private bool isPinchingRight = false;
-    private bool isPinchingLeft = false;
 
     void Start()
     {
@@ -22,8 +20,7 @@ public class PassthroughObjectsFinder : MonoBehaviour
 
     void Update()
     {
-        HandleHandPinch(rightHand, ref isPinchingRight);
-        HandleHandPinch(leftHand, ref isPinchingLeft);
+        HandleHandPinch(handThatPinch, ref isPinchingRight);
     }
 
     private void HandleHandPinch(OVRHand hand, ref bool isPinching)

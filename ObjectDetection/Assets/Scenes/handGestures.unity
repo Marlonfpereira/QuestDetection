@@ -3704,11 +3704,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4e5217b68b2e6543a63ca9b66492238, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rightHand: {fileID: 2621798409282114588}
-  leftHand: {fileID: 2168916185118818724}
+  handThatPinch: {fileID: 1532059120}
   controllerSphere: {fileID: 965569676}
   vertexSphere: {fileID: 965569676}
-  objectToSpawn: {fileID: 913864436}
+  objectToSpawn: {fileID: 1339652328}
 --- !u!4 &194237376
 Transform:
   m_ObjectHideFlags: 0
@@ -19478,7 +19477,7 @@ GameObject:
   - component: {fileID: 913864437}
   - component: {fileID: 913864441}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Cube To Spawn V2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26180,7 +26179,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1339652330}
@@ -26234,7 +26233,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1257662302}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!114 &1257662307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26247,8 +26246,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86f099dfd3414784a8d8e597f4bd5814, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!136 &1257662308
-CapsuleCollider:
+--- !u!65 &1257662308
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -26265,10 +26264,8 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.25
-  m_Height: 1
-  m_Direction: 0
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1257746225
 PrefabInstance:
@@ -27673,7 +27670,7 @@ Transform:
   m_GameObject: {fileID: 1339652328}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -1.85, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -27693,9 +27690,9 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1339652328}
   serializedVersion: 4
-  m_Mass: 1000
+  m_Mass: 10
   m_Drag: 0
-  m_AngularDrag: 1000
+  m_AngularDrag: 10
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -27707,7 +27704,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
