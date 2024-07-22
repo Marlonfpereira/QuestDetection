@@ -9,9 +9,7 @@ using UnityEngine.ProBuilder.MeshOperations;
 public class ManualPassthrough : MonoBehaviour
 {
     // Start is called before the first frame update
-    public Canvas canvas;
     public MeshRenderer passthroughMesh;
-    private bool isPassthrough = false;
     public Material passthroughMaterial;
     public OVRHand rightHand;
     public OVRHand leftHand;
@@ -29,12 +27,12 @@ public class ManualPassthrough : MonoBehaviour
     public PokeInteractable deleteInteractable;
     public Camera mainCamera;
     public LayerMask raycastLayer;
+    public TextMeshProUGUI debugText;
+    private bool righHanded = true;
 
     void Start()
     {
         currentMesh = new GameObject();
-        canvas.enabled = isPassthrough;
-        passthroughMesh.enabled = isPassthrough;
     }
 
     private bool isLongPinch = false;
@@ -81,6 +79,10 @@ public class ManualPassthrough : MonoBehaviour
                 isLongPinch = false;
             }
         }
+        else
+        {
+            controllerSphere.transform.position = Vector3.zero;
+        }
 
         if (grabInteractorL.HasSelectedInteractable)
         {
@@ -91,11 +93,12 @@ public class ManualPassthrough : MonoBehaviour
             deleteInteractable.gameObject.SetActive(false);
         }
 
-        Debug.Log(leftHand.GetComponent<OVRSkeleton>().Bones[8].Transform.rotation);
-
-        if(leftHand.GetComponent<OVRSkeleton>().Bones[8].Transform.rotation.x < 0) {
+        if ((righHanded && leftHand.GetComponent<OVRSkeleton>().Bones[8].Transform.rotation.x < 0) || (!righHanded && leftHand.GetComponent<OVRSkeleton>().Bones[8].Transform.rotation.x > 0))
+        {
             createInteractable.gameObject.SetActive(true);
-        } else {
+        }
+        else
+        {
             deleteInteractable.gameObject.SetActive(false);
             createInteractable.gameObject.SetActive(false);
         }
@@ -162,5 +165,39 @@ public class ManualPassthrough : MonoBehaviour
 
         if (grabInteractorL.HasSelectedInteractable)
             Destroy(grabInteractorL.SelectedInteractable.transform.parent.gameObject);
+    }
+
+    public void SwitchHands()
+    {
+        righHanded = !righHanded;
+        OVRHand aux = leftHand;
+        leftHand = rightHand;
+        rightHand = aux;
+
+        HandGrabInteractor aux2 = grabInteractorL;
+        grabInteractorL = grabInteractorR;
+        grabInteractorR = aux2;
+
+        createInteractable.transform.parent = leftHand.transform;
+        deleteInteractable.transform.parent = leftHand.transform;
+        // createInteractable.transform.localPosition = Vector3.one * 0.04f;
+
+
+        if (righHanded)
+        {
+            createInteractable.transform.localPosition = new Vector3(-44, 30, -03) * 0.001f;
+            deleteInteractable.transform.localPosition = new Vector3(28, 30, -03) * 0.001f;
+            createInteractable.transform.rotation = leftHand.GetComponent<OVRSkeleton>().Bones[0].Transform.rotation * Quaternion.Euler(90, 0, 0);
+            deleteInteractable.transform.rotation = leftHand.GetComponent<OVRSkeleton>().Bones[0].Transform.rotation * Quaternion.Euler(90, 0, 0);
+        }
+        else
+        {
+            createInteractable.transform.localPosition = new Vector3(-44, -30, -03) * 0.001f;
+            deleteInteractable.transform.localPosition = new Vector3(28, -30, -03) * 0.001f;
+            createInteractable.transform.rotation = leftHand.GetComponent<OVRSkeleton>().Bones[0].Transform.rotation * Quaternion.Euler(-90, 0, 0);
+            deleteInteractable.transform.rotation = leftHand.GetComponent<OVRSkeleton>().Bones[0].Transform.rotation * Quaternion.Euler(-90, 0, 0);
+        }
+
+        debugText.text = "Hands swapped!";
     }
 }
