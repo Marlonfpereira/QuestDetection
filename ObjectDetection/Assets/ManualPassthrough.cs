@@ -25,10 +25,13 @@ public class ManualPassthrough : MonoBehaviour
     public TextMeshPro buttonText;
     public PokeInteractable createInteractable;
     public PokeInteractable deleteInteractable;
+    public PokeInteractable LLockButton;
+    public PokeInteractable RLockButton;
     public Camera mainCamera;
     public LayerMask raycastLayer;
     public TextMeshProUGUI debugText;
     private bool righHanded = true;
+    private GameObject objectToLock;
 
     void Start()
     {
@@ -39,6 +42,7 @@ public class ManualPassthrough : MonoBehaviour
     private float pinchTimer = 0f;
     private float pinchDuration = .5f;
     private GameObject wireframe;
+    private bool buttonsVisible = true;
 
     void Update()
     {
@@ -117,7 +121,10 @@ public class ManualPassthrough : MonoBehaviour
 
     public void ToggleButtons()
     {
-        createInteractable.gameObject.SetActive(!createInteractable.gameObject.activeSelf);
+        buttonsVisible = !buttonsVisible;
+        LLockButton.gameObject.SetActive(buttonsVisible);
+        RLockButton.gameObject.SetActive(buttonsVisible);
+        createInteractable.gameObject.SetActive(buttonsVisible);
     }
 
     public void ToggleCreate()
@@ -219,5 +226,34 @@ public class ManualPassthrough : MonoBehaviour
         }
 
         debugText.text = "Hands swapped!";
+    }
+
+    public void ToggleLockButton(bool status, bool rightHand, GameObject obj)
+    {
+        if (buttonsVisible && status)
+        {
+            if (rightHand)
+            {
+                RLockButton.gameObject.SetActive(true);
+            }
+            else
+            {
+                LLockButton.gameObject.SetActive(true);
+            }
+            objectToLock = obj;
+        }
+        else
+        {
+            RLockButton.gameObject.SetActive(false);
+            LLockButton.gameObject.SetActive(false);
+        }
+    }
+
+    public void LockObject()
+    {
+        if (objectToLock != null)
+        {
+            objectToLock.GetComponentInChildren<HandGrabInteractable>().enabled = !objectToLock.GetComponentInChildren<HandGrabInteractable>().enabled;
+        }
     }
 }
