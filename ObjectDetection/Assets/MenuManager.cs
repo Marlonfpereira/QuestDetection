@@ -10,18 +10,24 @@ public class MenuManager : MonoBehaviour
 
     void Start()
     {
-
+        toggleMenu();
     }
 
     void Update()
     {
         if (OVRInput.GetDown(OVRInput.Button.Start))
         {
-            canvas.enabled = !canvas.enabled;
-            foreach (Transform child in canvas.transform)
-            {
-                child.gameObject.SetActive(canvas.enabled);
-            }
+            toggleMenu();
         }
+    }
+
+    public void toggleMenu()
+    {
+        canvas.enabled = !canvas.enabled;
+        foreach (Transform child in canvas.transform)
+        {
+            child.gameObject.SetActive(canvas.enabled);
+        }
+
     }
 }

@@ -25,10 +25,13 @@ public class ManualPassthrough : MonoBehaviour
     public TextMeshPro buttonText;
     public PokeInteractable createInteractable;
     public PokeInteractable deleteInteractable;
+    public PokeInteractable LLockButton;
+    public PokeInteractable RLockButton;
     public Camera mainCamera;
     public LayerMask raycastLayer;
     public TextMeshProUGUI debugText;
     private bool righHanded = true;
+    private GameObject objectToLock;
 
     void Start()
     {
@@ -38,6 +41,8 @@ public class ManualPassthrough : MonoBehaviour
     private bool isLongPinch = false;
     private float pinchTimer = 0f;
     private float pinchDuration = .5f;
+    private GameObject wireframe;
+    private bool buttonsVisible = true;
 
     void Update()
     {
@@ -46,6 +51,26 @@ public class ManualPassthrough : MonoBehaviour
         if (isCreating)
         {
             controllerSphere.transform.position = controllerPos;
+
+            if (currentSet.Count >= 2)
+            {
+                if (wireframe != null)
+                {
+                    Destroy(wireframe);
+                }
+                wireframe = new GameObject();
+                LineRenderer lineRenderer = wireframe.AddComponent<LineRenderer>();
+                lineRenderer.startWidth = 0.01f;
+                lineRenderer.endWidth = 0.01f;
+                lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+                lineRenderer.material.color = Color.green;
+                lineRenderer.positionCount = currentSet.Count;
+                for (int i = 0; i < currentSet.Count; i++)
+                {
+                    lineRenderer.SetPosition(i, currentSet[i].transform.position);
+                }
+                wireframe.transform.parent = currentMesh.transform;
+            }
 
             if (rightHand.GetFingerIsPinching(OVRHand.HandFinger.Index))
             {
@@ -92,18 +117,16 @@ public class ManualPassthrough : MonoBehaviour
         {
             deleteInteractable.gameObject.SetActive(false);
         }
-
-        if ((righHanded && leftHand.GetComponent<OVRSkeleton>().Bones[8].Transform.rotation.x < 0) || (!righHanded && leftHand.GetComponent<OVRSkeleton>().Bones[8].Transform.rotation.x > 0))
-        {
-            createInteractable.gameObject.SetActive(true);
-        }
-        else
-        {
-            deleteInteractable.gameObject.SetActive(false);
-            createInteractable.gameObject.SetActive(false);
-        }
-
     }
+
+    public void ToggleButtons()
+    {
+        buttonsVisible = !buttonsVisible;
+        LLockButton.gameObject.SetActive(buttonsVisible);
+        RLockButton.gameObject.SetActive(buttonsVisible);
+        createInteractable.gameObject.SetActive(buttonsVisible);
+    }
+
     public void ToggleCreate()
     {
         if (!isCreating)
@@ -122,6 +145,10 @@ public class ManualPassthrough : MonoBehaviour
 
     public void CreateMesh()
     {
+        if (wireframe != null)
+        {
+            Destroy(wireframe);
+        }
         if (currentSet.Count == 2)
         {
             GameObject aux1 = Instantiate(vertexSphere, new Vector3(currentSet[0].transform.position.x, currentSet[1].transform.position.y, currentSet[0].transform.position.z), Quaternion.identity);
@@ -185,19 +212,48 @@ public class ManualPassthrough : MonoBehaviour
 
         if (righHanded)
         {
-            createInteractable.transform.localPosition = new Vector3(-44, 30, -03) * 0.001f;
-            deleteInteractable.transform.localPosition = new Vector3(28, 30, -03) * 0.001f;
-            createInteractable.transform.rotation = leftHand.GetComponent<OVRSkeleton>().Bones[0].Transform.rotation * Quaternion.Euler(90, 0, 0);
-            deleteInteractable.transform.rotation = leftHand.GetComponent<OVRSkeleton>().Bones[0].Transform.rotation * Quaternion.Euler(90, 0, 0);
+            createInteractable.transform.localPosition = new Vector3(15, 10, 40) * 0.001f;
+            deleteInteractable.transform.localPosition = new Vector3(15, 10, -40) * 0.001f;
+            createInteractable.transform.rotation = leftHand.GetComponent<OVRSkeleton>().Bones[0].Transform.rotation * Quaternion.Euler(90, 0, 90);
+            deleteInteractable.transform.rotation = leftHand.GetComponent<OVRSkeleton>().Bones[0].Transform.rotation * Quaternion.Euler(90, 0, 90);
         }
         else
         {
-            createInteractable.transform.localPosition = new Vector3(-44, -30, -03) * 0.001f;
-            deleteInteractable.transform.localPosition = new Vector3(28, -30, -03) * 0.001f;
-            createInteractable.transform.rotation = leftHand.GetComponent<OVRSkeleton>().Bones[0].Transform.rotation * Quaternion.Euler(-90, 0, 0);
-            deleteInteractable.transform.rotation = leftHand.GetComponent<OVRSkeleton>().Bones[0].Transform.rotation * Quaternion.Euler(-90, 0, 0);
+            createInteractable.transform.localPosition = new Vector3(15, -10, -40) * 0.001f;
+            deleteInteractable.transform.localPosition = new Vector3(15, -10, 40) * 0.001f;
+            createInteractable.transform.rotation = leftHand.GetComponent<OVRSkeleton>().Bones[0].Transform.rotation * Quaternion.Euler(-90, 0, -90);
+            deleteInteractable.transform.rotation = leftHand.GetComponent<OVRSkeleton>().Bones[0].Transform.rotation * Quaternion.Euler(-90, 0, -90);
         }
 
         debugText.text = "Hands swapped!";
+    }
+
+    public void ToggleLockButton(bool status, bool rightHand, GameObject obj)
+    {
+        if (buttonsVisible && status)
+        {
+            if (rightHand)
+            {
+                RLockButton.gameObject.SetActive(true);
+            }
+            else
+            {
+                LLockButton.gameObject.SetActive(true);
+            }
+            objectToLock = obj;
+        }
+        else
+        {
+            RLockButton.gameObject.SetActive(false);
+            LLockButton.gameObject.SetActive(false);
+        }
+    }
+
+    public void LockObject()
+    {
+        if (objectToLock != null)
+        {
+            objectToLock.GetComponentInChildren<HandGrabInteractable>().enabled = !objectToLock.GetComponentInChildren<HandGrabInteractable>().enabled;
+        }
     }
 }
