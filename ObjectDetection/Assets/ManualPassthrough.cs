@@ -62,13 +62,13 @@ public class ManualPassthrough : MonoBehaviour
                 LineRenderer lineRenderer = wireframe.AddComponent<LineRenderer>();
                 lineRenderer.startWidth = 0.01f;
                 lineRenderer.endWidth = 0.01f;
-                lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-                lineRenderer.material.color = Color.green;
-                lineRenderer.positionCount = currentSet.Count;
+                lineRenderer.material = new Material(Shader.Find("Sprites/Default")) { color = Color.green };
+                lineRenderer.positionCount = currentSet.Count+1;
                 for (int i = 0; i < currentSet.Count; i++)
                 {
                     lineRenderer.SetPosition(i, currentSet[i].transform.position);
                 }
+                lineRenderer.SetPosition(currentSet.Count, currentSet[0].transform.position);
                 wireframe.transform.parent = currentMesh.transform;
             }
 
