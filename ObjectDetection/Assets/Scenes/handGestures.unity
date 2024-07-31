@@ -11675,8 +11675,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1f745a4ae5f81ca418e0e61056f311f9, type: 3}
   A: 0
   textComponent: {fileID: 2011850409}
-  textToType: Hello worlddddddddddddddddddddd
-  revealSpeed: 0.2
+  wordsPerChunk: 6
+  howFastTextAppear: 0.78
 --- !u!1 &884749809
 GameObject:
   m_ObjectHideFlags: 0
@@ -18578,7 +18578,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1359574150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27278,7 +27278,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Hi, my name is Bob  GGGGGGGGGGGGGG
+  m_text: Update this text in AudioManager script
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
