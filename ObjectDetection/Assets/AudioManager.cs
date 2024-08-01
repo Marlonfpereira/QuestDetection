@@ -40,12 +40,12 @@ public class AudioManager : MonoBehaviour
         textVariable = "Hi, my name is Bob, welcome to the study about bringing real-world objects into VR. We thank you for being a part of this research about bringing real-world objects into VR. This session is anonymized and just recorded from your point of view to understand how you interact with the real-world objects in Virtual Reality. I am going to give you some tasks that involve importing objects from the real world to the virtual world and ask you to perform some tasks with them. In order to import an object, you must perform a pinching gesture with your dominant hand in order to create a polygon of the object you want to import. For example, if one task is to bring your cellphone to VR, you must pinch the corners of your phone with your index finger with your dominant hand and then confirm the selection by pressing with your index finger in your hand. You can also delete or lock an object using the menu on your dominant hand. These two actions require you to have the object in your hand and then press the respective button on the outside of your hand. I am going to give you four tasks. When you complete a task, please inform a researcher before the study can continue. If at any point you feel nauseous, please do not hesitate to take off your display, or you can inform a researcher. First task: With your hand do the pinch gesture and make a polygon in the shape of a laptop. Then confirm the calibration and search a tutorial on Google of how to draw a dragon.";
         words = textVariable.Split(' ');
         numWords = words.Length;
-        StartCoroutine(SplitTextCoroutine());
+        // StartCoroutine(SplitTextCoroutine());
 
         // Play the first audio clip
         if (audioClips.Length > 0)
         {
-            PlayClip(currentClipIndex);
+            // PlayClip(currentClipIndex);
 
         }
     }
@@ -54,14 +54,23 @@ public class AudioManager : MonoBehaviour
     void Update()
     {
         // Check if the audio has finished playing and start the coroutine if necessary
-        if (!audioSource.isPlaying)
+        // if (!audioSource.isPlaying)
+        // {
+        //     StartCoroutine(WaitAndPlayNextClip());
+        // }
+    }
+
+    public void RemoteStart()
+    {
+        StartCoroutine(SplitTextCoroutine());
+        if (audioClips.Length > 0)
         {
-            StartCoroutine(WaitAndPlayNextClip());
+            PlayClip(currentClipIndex);
         }
     }
 
     // Coroutine to wait for X seconds before playing the next clip
-    private IEnumerator WaitAndPlayNextClip()
+    public IEnumerator WaitAndPlayNextClip()
     {
 
         // Check if we are dealing with the last 4 clips
