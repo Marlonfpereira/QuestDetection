@@ -6680,10 +6680,7 @@ Transform:
   - {fileID: 1454374308}
   - {fileID: 930747815}
   - {fileID: 1470156889}
-  - {fileID: 1221583349}
-  - {fileID: 689403899}
-  - {fileID: 813012554}
-  - {fileID: 801517057}
+  - {fileID: 1687673478}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &329333011
@@ -15275,13 +15272,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 689403898}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -9.398, y: 1.86, z: -2.09}
-  m_LocalScale: {x: 0.2, y: 1, z: 0.35}
+  m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
+  m_LocalPosition: {x: -9.398, y: 1.86, z: -2.0900002}
+  m_LocalScale: {x: 0.35, y: 1, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 329333010}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
+  m_Father: {fileID: 1687673478}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: -90}
 --- !u!64 &689403900
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -15324,7 +15321,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 970d6069436ccb649b9391367136ce62, type: 2}
+  - {fileID: 2100000, guid: fc33736a763c84d4d91de59c3f98c6f0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -17637,7 +17634,7 @@ Transform:
   m_LocalScale: {x: 0.48925596, y: 0.1564765, z: 0.48925596}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 329333010}
+  m_Father: {fileID: 1687673478}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 8.763}
 --- !u!65 &801517058
 BoxCollider:
@@ -18178,7 +18175,7 @@ Transform:
   m_LocalScale: {x: 0.12619433, y: 0.1251502, z: 0.12619434}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 329333010}
+  m_Father: {fileID: 1687673478}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 100.549}
 --- !u!136 &813012555
 CapsuleCollider:
@@ -25317,7 +25314,7 @@ Transform:
   m_LocalScale: {x: 0.13, y: 1.87, z: 0.15}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 329333010}
+  m_Father: {fileID: 1687673478}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: -90}
 --- !u!136 &1221583350
 CapsuleCollider:
@@ -35838,6 +35835,41 @@ Transform:
   m_Children: []
   m_Father: {fileID: 702455498}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1687673477
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1687673478}
+  m_Layer: 0
+  m_Name: projector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1687673478
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1687673477}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1221583349}
+  - {fileID: 689403899}
+  - {fileID: 813012554}
+  - {fileID: 801517057}
+  m_Father: {fileID: 329333010}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1693782372
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41700,10 +41732,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38809c820a29e42449a2080952bcf46c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plane1: {fileID: 0}
+  plane1: {fileID: 689403898}
   materials:
-  - {fileID: 2100000, guid: b1d6ad9b3cfbbdd43833ed18ede30f6c, type: 2}
-  - {fileID: 2100000, guid: 815feb3796339b946899fe35fd163308, type: 2}
+  - {fileID: 2100000, guid: fc33736a763c84d4d91de59c3f98c6f0, type: 2}
+  - {fileID: 2100000, guid: 0471652ca8110cb4f92630f0e8bc4a15, type: 2}
+  - {fileID: 2100000, guid: 0401e90042c6b8246b45dc2ab42c82b3, type: 2}
+  - {fileID: 2100000, guid: 20dea70f9b252ff409c5528fa266e2bf, type: 2}
+  - {fileID: 2100000, guid: c3ed7528ca0600c4291b525d09254327, type: 2}
+  - {fileID: 2100000, guid: 1c0a0bdbf36b85b4e967b3872804a35b, type: 2}
+  - {fileID: 2100000, guid: 92105255eab319d4fba4c7e49e5c9eb3, type: 2}
+  - {fileID: 2100000, guid: 64310d1f5b2889b4d8c935709bc5f150, type: 2}
+  - {fileID: 2100000, guid: 2d83d2b8f69ce3743a3128fde9b6d74a, type: 2}
+  - {fileID: 2100000, guid: 0d60f598ecb77c44087058b9e319bd39, type: 2}
+  - {fileID: 2100000, guid: 278473c4decb2d640970cac86bf0a1d2, type: 2}
   audioSource: {fileID: 187646419}
   audioManager: {fileID: 187646416}
 --- !u!1001 &1988506008
