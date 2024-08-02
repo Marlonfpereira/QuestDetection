@@ -21,14 +21,12 @@ public class SceneManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            ChangePlane();
             currentStep++;
             Debug.Log(currentStep);
             ManageSteps();
         }
         else if (Input.GetMouseButtonDown(1))
         {
-            ChangePlane();
             currentStep--;
             Debug.Log(currentStep);
             ManageSteps();
@@ -48,29 +46,15 @@ public class SceneManager : MonoBehaviour
         {
             audioManager.StopAllCoroutines();
         }
-        else if (currentStep == 1)
+        else if (currentStep == -1)
         {
             audioManager.RemoteStart();
         }
-        else if (currentStep == 2)
+        else if (currentStep == -2)
         {
             StartCoroutine(audioManager.WaitAndPlayNextClip());
         }
 
         plane1.GetComponent<MeshRenderer>().material = materials[currentStep%11];
-    }
-
-    public void ChangePlane()
-    {
-        // if (!isPlaying)
-        // {
-        //     audioSource.Play();
-        //     isPlaying = true;
-        // }
-        // else
-        // {
-        //     audioSource.Stop();
-        //     isPlaying = false;
-        // }
     }
 }

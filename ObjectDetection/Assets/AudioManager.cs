@@ -106,7 +106,7 @@ public class AudioManager : MonoBehaviour
     }
 
     // Method to play a clip given its index
-    private void PlayClip(int clipIndex)
+    public void PlayClip(int clipIndex)
     {
         audioSource.clip = audioClips[clipIndex];
         audioSource.loop = clipIndex >= 8 && !A; // Loop if it's one of the last 4 clips and A is false
