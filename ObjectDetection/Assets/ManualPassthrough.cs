@@ -33,9 +33,11 @@ public class ManualPassthrough : MonoBehaviour
     private bool righHanded = true;
     private GameObject objectToLock;
 
+    private GameObject scaleObj;
     void Start()
     {
         currentMesh = new GameObject();
+        scaleObj = new GameObject();
     }
 
     private bool isLongPinch = false;
@@ -43,6 +45,10 @@ public class ManualPassthrough : MonoBehaviour
     private float pinchDuration = .5f;
     private GameObject wireframe;
     private bool buttonsVisible = true;
+
+
+    private Vector3 initialDistanceBetweenHands; // Initial distance between hands
+    private Vector3 initialScale; // Initial scale of the GameObject
 
     void Update()
     {
@@ -63,7 +69,7 @@ public class ManualPassthrough : MonoBehaviour
                 lineRenderer.startWidth = 0.01f;
                 lineRenderer.endWidth = 0.01f;
                 lineRenderer.material = new Material(Shader.Find("Sprites/Default")) { color = Color.green };
-                lineRenderer.positionCount = currentSet.Count+1;
+                lineRenderer.positionCount = currentSet.Count + 1;
                 for (int i = 0; i < currentSet.Count; i++)
                 {
                     lineRenderer.SetPosition(i, currentSet[i].transform.position);
@@ -112,10 +118,32 @@ public class ManualPassthrough : MonoBehaviour
         if (grabInteractorL.HasSelectedInteractable)
         {
             deleteInteractable.gameObject.SetActive(true);
+
+            if (buttonsVisible && grabInteractorR.HasSelectedInteractable && grabInteractorL.SelectedInteractable == grabInteractorR.SelectedInteractable)
+            {
+                grabInteractorL.SelectedInteractable.transform.parent.gameObject.transform.parent = scaleObj.transform;
+
+                    if (initialDistanceBetweenHands == Vector3.zero)
+                    {
+                        initialDistanceBetweenHands = rightHand.transform.position - leftHand.transform.position;
+                        initialScale = scaleObj.transform.localScale;
+                    }
+                    else
+                    {
+                        Vector3 currentDistanceBetweenHands = rightHand.transform.position - leftHand.transform.position;
+                        float distanceRatio = currentDistanceBetweenHands.magnitude / initialDistanceBetweenHands.magnitude;
+                        scaleObj.transform.localScale = initialScale * distanceRatio;
+                    }
+            }
+            else
+            {
+                initialDistanceBetweenHands = Vector3.zero;
+            }
         }
         else
         {
             deleteInteractable.gameObject.SetActive(false);
+            scaleObj = new GameObject();
         }
     }
 
