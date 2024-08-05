@@ -145,6 +145,43 @@ public class ManualPassthrough : MonoBehaviour
             deleteInteractable.gameObject.SetActive(false);
             scaleObj = new GameObject();
         }
+
+        if (buttonsVisible)
+        {
+            Vector3 directionToUser = Camera.main.transform.position - createInteractable.gameObject.transform.position;
+            Quaternion rotationToUser = Quaternion.LookRotation(directionToUser);
+            bool isFacingUser = Quaternion.Angle(createInteractable.gameObject.transform.rotation, rotationToUser) > 120f;
+
+            if (!isFacingUser)
+            {
+                createInteractable.gameObject.SetActive(false);
+                deleteInteractable.gameObject.SetActive(false);
+            }
+            else
+            {
+                createInteractable.gameObject.SetActive(true);
+            }
+
+            
+            Vector3 directionToUserLLockButton = Camera.main.transform.position - LLockButton.gameObject.transform.position;
+            Quaternion rotationToUserLLockButton = Quaternion.LookRotation(directionToUserLLockButton);
+            bool isFacingUserLLockButton = Quaternion.Angle(LLockButton.gameObject.transform.rotation, rotationToUserLLockButton) > 120f;
+
+            if (!isFacingUserLLockButton)
+            {
+                LLockButton.gameObject.SetActive(false);
+            }
+
+            Vector3 directionToUserRLockButton = Camera.main.transform.position - RLockButton.gameObject.transform.position;
+            Quaternion rotationToUserRLockButton = Quaternion.LookRotation(directionToUserRLockButton);
+            bool isFacingUserRLockButton = Quaternion.Angle(RLockButton.gameObject.transform.rotation, rotationToUserRLockButton) > 120f;
+
+            if (!isFacingUserRLockButton)
+            {
+                RLockButton.gameObject.SetActive(false);
+            }
+            
+        }
     }
 
     public void ToggleButtons()
