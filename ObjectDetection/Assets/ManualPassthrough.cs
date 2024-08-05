@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.ProBuilder;
 using UnityEngine.ProBuilder.MeshOperations;
+using UnityEngine.Rendering.Universal;
 
 public class ManualPassthrough : MonoBehaviour
 {
@@ -29,7 +30,6 @@ public class ManualPassthrough : MonoBehaviour
     public PokeInteractable RLockButton;
     public Camera mainCamera;
     public LayerMask raycastLayer;
-    public TextMeshProUGUI debugText;
     private bool righHanded = true;
     private GameObject objectToLock;
 
@@ -123,17 +123,17 @@ public class ManualPassthrough : MonoBehaviour
             {
                 grabInteractorL.SelectedInteractable.transform.parent.gameObject.transform.parent = scaleObj.transform;
 
-                    if (initialDistanceBetweenHands == Vector3.zero)
-                    {
-                        initialDistanceBetweenHands = rightHand.transform.position - leftHand.transform.position;
-                        initialScale = scaleObj.transform.localScale;
-                    }
-                    else
-                    {
-                        Vector3 currentDistanceBetweenHands = rightHand.transform.position - leftHand.transform.position;
-                        float distanceRatio = currentDistanceBetweenHands.magnitude / initialDistanceBetweenHands.magnitude;
-                        scaleObj.transform.localScale = initialScale * distanceRatio;
-                    }
+                if (initialDistanceBetweenHands == Vector3.zero)
+                {
+                    initialDistanceBetweenHands = rightHand.transform.position - leftHand.transform.position;
+                    initialScale = scaleObj.transform.localScale;
+                }
+                else
+                {
+                    Vector3 currentDistanceBetweenHands = rightHand.transform.position - leftHand.transform.position;
+                    float distanceRatio = currentDistanceBetweenHands.magnitude / initialDistanceBetweenHands.magnitude;
+                    scaleObj.transform.localScale = initialScale * distanceRatio;
+                }
             }
             else
             {
@@ -252,9 +252,10 @@ public class ManualPassthrough : MonoBehaviour
             createInteractable.transform.rotation = leftHand.GetComponent<OVRSkeleton>().Bones[0].Transform.rotation * Quaternion.Euler(-90, 0, -90);
             deleteInteractable.transform.rotation = leftHand.GetComponent<OVRSkeleton>().Bones[0].Transform.rotation * Quaternion.Euler(-90, 0, -90);
         }
-
-        debugText.text = "Hands swapped!";
     }
+
+    private Oculus.Interaction.InteractableColorVisual.ColorState blueState = new Oculus.Interaction.InteractableColorVisual.ColorState() { Color = new Color(.6f, .7921f, 1) };
+    private Oculus.Interaction.InteractableColorVisual.ColorState redState = new Oculus.Interaction.InteractableColorVisual.ColorState() { Color = new Color(1, .5990f, .5990f) };
 
     public void ToggleLockButton(bool status, bool rightHand, GameObject obj)
     {
@@ -262,10 +263,14 @@ public class ManualPassthrough : MonoBehaviour
         {
             if (rightHand)
             {
+                RLockButton.GetComponentInChildren<InteractableColorVisual>().InjectOptionalNormalColorState(obj.GetComponentInChildren<HandGrabInteractable>().enabled ? blueState : redState);
+                RLockButton.GetComponentInChildren<TextMeshPro>().text = obj.GetComponentInChildren<HandGrabInteractable>().enabled ? "Lock" : "Unlock";
                 RLockButton.gameObject.SetActive(true);
             }
             else
             {
+                LLockButton.GetComponentInChildren<InteractableColorVisual>().InjectOptionalNormalColorState(obj.GetComponentInChildren<HandGrabInteractable>().enabled ? blueState : redState);
+                LLockButton.GetComponentInChildren<TextMeshPro>().text = obj.GetComponentInChildren<HandGrabInteractable>().enabled ? "Lock" : "Unlock";
                 LLockButton.gameObject.SetActive(true);
             }
             objectToLock = obj;
