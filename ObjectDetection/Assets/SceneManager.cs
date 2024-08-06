@@ -10,7 +10,7 @@ public class SceneManager : MonoBehaviour
     public AudioSource audioSource;
     public AudioManager audioManager;
     private bool isPlaying = false;
-    private int currentStep = 0;
+    private int currentStep = -1;
     void Start()
     {
         plane1.SetActive(true);;
@@ -34,7 +34,7 @@ public class SceneManager : MonoBehaviour
         else if (Input.GetMouseButton(2))
         {
             //reset
-            currentStep = 0;
+            currentStep = -1;
             Debug.Log(currentStep);
             ManageSteps();
         }
@@ -42,18 +42,19 @@ public class SceneManager : MonoBehaviour
 
     private void ManageSteps()
     {
-        if (currentStep == 0)
-        {
-            audioManager.StopAllCoroutines();
-        }
-        else if (currentStep == -1)
-        {
-            audioManager.RemoteStart();
-        }
-        else if (currentStep == -2)
-        {
-            StartCoroutine(audioManager.WaitAndPlayNextClip());
-        }
+        // if (currentStep == 0)
+        // {
+        //     audioManager.StopAllCoroutines();
+        // }
+        // else if (currentStep == -1)
+        // {
+        //     audioManager.RemoteStart();
+        // }
+        // else if (currentStep == -2)
+        // {
+        //     StartCoroutine(audioManager.WaitAndPlayNextClip());
+        // }
+        audioManager.PlayClip(currentStep);
 
         plane1.GetComponent<MeshRenderer>().material = materials[currentStep%15];
     }

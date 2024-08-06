@@ -7,7 +7,7 @@ public class AudioManager : MonoBehaviour
 {
     // Serialized array of audio clips
     [SerializeField]
-    private AudioClip[] audioClips = new AudioClip[12];
+    private AudioClip[] audioClips = new AudioClip[15];
 
     // Reference to the AudioSource component
     private AudioSource audioSource;
@@ -31,16 +31,45 @@ public class AudioManager : MonoBehaviour
     private float howFastVoiceReturn;
     private int numWords = 0;
 
+    struct Subtitles
+    {
+        public string text;
+        public string[] words;
+        public int numWords;
+    }
+
+    private Subtitles[] subtitles = new Subtitles[15];
+
     // Start is called before the first frame update
     void Start()
     {
         // Get the AudioSource component attached to the same GameObject
         audioSource = GetComponent<AudioSource>();
         textComponent.text = "";
-        textVariable = "Hi, my name is Bob, welcome to the study about bringing real-world objects into VR. We thank you for being a part of this research about bringing real-world objects into VR. This session is anonymized and just recorded from your point of view to understand how you interact with the real-world objects in Virtual Reality. I am going to give you some tasks that involve importing objects from the real world to the virtual world and ask you to perform some tasks with them. In order to import an object, you must perform a pinching gesture with your dominant hand in order to create a polygon of the object you want to import. For example, if one task is to bring your cellphone to VR, you must pinch the corners of your phone with your index finger with your dominant hand and then confirm the selection by pressing with your index finger in your hand. You can also delete or lock an object using the menu on your dominant hand. These two actions require you to have the object in your hand and then press the respective button on the outside of your hand. I am going to give you four tasks. When you complete a task, please inform a researcher before the study can continue. If at any point you feel nauseous, please do not hesitate to take off your display, or you can inform a researcher. First task: With your hand do the pinch gesture and make a polygon in the shape of a laptop. Then confirm the calibration and search a tutorial on Google of how to draw a dragon.";
         words = textVariable.Split(' ');
         numWords = words.Length;
         // StartCoroutine(SplitTextCoroutine());
+
+        subtitles[0].text = "Welcome to our study!";
+        subtitles[1].text = "This study is made in order to know the user experience in importing and using real-world objects into virtual reality.";
+        subtitles[2].text = "For doing this, you will have a brief explanation on how to do the gestures in order to perform them in VR.";
+        subtitles[3].text = "Now that you have some experience, let's try performing some tasks that consists in importing real-world objects into Virtual Reality and manipulating it.";
+        subtitles[4].text = "The first objective is to import the laptop into virtual reality. You should create the shape of a laptop and edit it to fit in the best way possible.";
+        subtitles[5].text = "After you have imported the laptop, please lock its shape. Once you have locked it, please answer the email that is on the screen.";
+        subtitles[6].text = "The second objective will be importing four tools from the table. To do this follow the instructions and advice the supervisor when you have completed each of the tasks.";
+        subtitles[7].text = "Task 1: Place vertices around the hammer to resemble its shape, then grab and lift the hammer from the table.";
+        subtitles[8].text = "Task 2: Place vertices around the pliers to resemble its shape,  grab it, and try to opening and closing it.";
+        subtitles[9].text = "Step 1: Import the screwdriver creating vertices around it. Step 2: move the slider down to use it counterclockwise. Step 3: move the slider up to use it clockwise.";
+        subtitles[10].text = "Step 1: Import the wrench creating vertices around it. Step 2: Pull the spinner down to make the wrench open. Step 3: Push the spinner up to make the wrench closer.";
+        subtitles[12].text = "The third objective is to import the mug into virtual reality. Then, grab the mug and pretend to take a sip.";
+        subtitles[13].text = "Objective four is to import the whiteboard in front of you. Then, we'll present three app interfaces for your feedback. Please write your preferred choice and reasons on the whiteboard.";
+        subtitles[14].text = "";
+
+        for (int i = 0; i < subtitles.Length; i++)
+        {
+            subtitles[i].words = subtitles[i].text.Split(' ');
+            subtitles[i].numWords = subtitles[i].words.Length;
+        }
 
         // Play the first audio clip
         if (audioClips.Length > 0)
@@ -62,7 +91,6 @@ public class AudioManager : MonoBehaviour
 
     public void RemoteStart()
     {
-        StartCoroutine(SplitTextCoroutine());
         if (audioClips.Length > 0)
         {
             PlayClip(currentClipIndex);
@@ -109,24 +137,26 @@ public class AudioManager : MonoBehaviour
     public void PlayClip(int clipIndex)
     {
         audioSource.clip = audioClips[clipIndex];
-        audioSource.loop = clipIndex >= 8 && !A; // Loop if it's one of the last 4 clips and A is false
+        audioSource.loop = false;//clipIndex >= 8 && !A; // Loop if it's one of the last 4 clips and A is false
         audioSource.Play();
+        currentIndex = 0;
+        StartCoroutine(SplitTextCoroutine(subtitles[clipIndex]));
     }
 
-    IEnumerator SplitTextCoroutine()
+    IEnumerator SplitTextCoroutine(Subtitles sub)
     {
-        while (currentIndex < numWords)
+        while (currentIndex < sub.numWords)
         {
-            string chunk = GetNextChunk();
+            string chunk = GetNextChunk(sub);
             textComponent.text = chunk;
             yield return new WaitForSeconds(howFastTextAppear);
         }
     }
 
-    string GetNextChunk()
+    string GetNextChunk(Subtitles sub)
     {
-        int endIndex = Mathf.Min(currentIndex + wordsPerChunk, numWords);
-        string chunk = string.Join(" ", words, currentIndex, endIndex - currentIndex);
+        int endIndex = Mathf.Min(currentIndex + wordsPerChunk, sub.numWords);
+        string chunk = string.Join(" ", sub.words, currentIndex, endIndex - currentIndex);
         currentIndex = endIndex;
         return chunk;
     }
