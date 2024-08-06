@@ -16956,7 +16956,7 @@ PrefabInstance:
     - target: {fileID: 2133182017102526702, guid: 1c267138c369d4d4f8608d6e0f5b07b8,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.0644
+      value: 1.012
       objectReference: {fileID: 0}
     - target: {fileID: 2133182017102526702, guid: 1c267138c369d4d4f8608d6e0f5b07b8,
         type: 3}
@@ -23433,7 +23433,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Update this text in AudioManager script
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -26823,7 +26823,7 @@ PrefabInstance:
     - target: {fileID: 6063185247307376949, guid: d6ea1c4491e5eec49993e5c720e5be3a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.91391236
+      value: 0.86151236
       objectReference: {fileID: 0}
     - target: {fileID: 6063185247307376949, guid: d6ea1c4491e5eec49993e5c720e5be3a,
         type: 3}
@@ -40977,7 +40977,7 @@ PrefabInstance:
     - target: {fileID: 6276723126183640539, guid: f6b00a094545a1d4896b89840f1f18dc,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.22
+      value: 1.15
       objectReference: {fileID: 0}
     - target: {fileID: 6276723126183640539, guid: f6b00a094545a1d4896b89840f1f18dc,
         type: 3}
