@@ -62,8 +62,8 @@ public class AudioManager : MonoBehaviour
         subtitles[9].text = "Place vertices around the pliers to resemble its shape.";
         subtitles[10].text = "Pliers can have a variety of purposes: bend wires, cut cables, firmly grip objects or manipulate small parts. Its shape can have variations, but usually they look like a pair of scissors. Grab the plier, and try to open and close it.";
         subtitles[11].text = "Place vertices around the screwdriver to resemble its shape.";
-        subtitles[12].text = "The screwdriver is used for the insertion and removal of screws. It can have an interchangeable tip in order to be used with different types of screws. To facilitate its use, it is possible to change the direction it can be rotated. Grab the screwdriver, and do the following interactions:";
-        subtitles[13].text = "Step 1: move the slider down to use it counterclockwise. Step 2: move the slider up to use it clockwise.";
+        subtitles[12].text = "The screwdriver is used for the insertion and removal of screws. It can have an interchangeable tip in order to be used with different types of screws. To facilitate its use, it is possible to change the direction it can be rotated. ";
+        subtitles[13].text = "Grab the screwdriver, and do the following interactions: Step 1: move the slider down to use it counterclockwise. Step 2: move the slider up to use it clockwise.";
         subtitles[14].text = "Place vertices around the wrench to resemble its shape.";
         subtitles[15].text = "The wrench is a tool used to provide grip and apply torque to turn objects - usually parts like nuts and bolts. It can also be adjustable, including a spinner that changes its width. Grab the wrench, and do the following interactions:";
         subtitles[16].text = "Step 1: Pull the spinner down to make the wrench open. Step 2: Push the spinner up to make the wrench closer.";
