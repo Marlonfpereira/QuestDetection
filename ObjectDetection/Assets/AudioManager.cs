@@ -45,12 +45,12 @@ public class AudioManager : MonoBehaviour
     {
         // Get the AudioSource component attached to the same GameObject
         audioSource = GetComponent<AudioSource>();
-        textComponent.text = "";
-        words = textVariable.Split(' ');
-        numWords = words.Length;
+        // textComponent.text = "";
+        // words = textVariable.Split(' ');
+        // numWords = words.Length;
         // StartCoroutine(SplitTextCoroutine());
 
-        subtitles[0].text = "Welcome to our study!";
+        subtitles[0].text = "Importing real-world objects in VR";
         subtitles[1].text = "This study is made in order to know the user experience in importing and using real-world objects into virtual reality.";
         subtitles[2].text = "For doing this, you will have a brief explanation on how to do the gestures in order to perform them in VR.";
         subtitles[3].text = "Now that you have some experience, let's try performing some tasks that consists in importing real-world objects into Virtual Reality and manipulating it.";
@@ -58,11 +58,12 @@ public class AudioManager : MonoBehaviour
         subtitles[5].text = "After you have imported the laptop, please lock its shape. Once you have locked it, please answer the email that is on the screen.";
         subtitles[6].text = "The second objective will be importing four tools from the table. To do this follow the instructions and advice the supervisor when you have completed each of the tasks.";
         subtitles[7].text = "Task 1: Place vertices around the hammer to resemble its shape, then grab and lift the hammer from the table.";
-        subtitles[8].text = "Task 2: Place vertices around the pliers to resemble its shape,  grab it, and try to opening and closing it.";
+        subtitles[8].text = "Task 2: Place vertices around the pliers to resemble its shape,  grab it, and try to open and close it.";
         subtitles[9].text = "Step 1: Import the screwdriver creating vertices around it. Step 2: move the slider down to use it counterclockwise. Step 3: move the slider up to use it clockwise.";
         subtitles[10].text = "Step 1: Import the wrench creating vertices around it. Step 2: Pull the spinner down to make the wrench open. Step 3: Push the spinner up to make the wrench closer.";
-        subtitles[12].text = "The third objective is to import the mug into virtual reality. Then, grab the mug and pretend to take a sip.";
-        subtitles[13].text = "Objective four is to import the whiteboard in front of you. Then, we'll present three app interfaces for your feedback. Please write your preferred choice and reasons on the whiteboard.";
+        subtitles[11].text = "The third objective is to import the mug into virtual reality. Then, grab the mug and pretend to take a sip.";
+        subtitles[12].text = "Objective four is to import the whiteboard in front of you. Then, we'll present three app interfaces for your feedback. Please write your preferred choice and reasons on the whiteboard.";
+        subtitles[13].text = "";
         subtitles[14].text = "";
 
         for (int i = 0; i < subtitles.Length; i++)
@@ -72,11 +73,11 @@ public class AudioManager : MonoBehaviour
         }
 
         // Play the first audio clip
-        if (audioClips.Length > 0)
-        {
+        // if (audioClips.Length > 0)
+        // {
             // PlayClip(currentClipIndex);
 
-        }
+        // }
     }
 
     // Update is called once per frame

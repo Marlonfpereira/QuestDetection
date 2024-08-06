@@ -54,6 +54,8 @@ public class SceneManager : MonoBehaviour
         // {
         //     StartCoroutine(audioManager.WaitAndPlayNextClip());
         // }
+        
+        audioManager.StopAllCoroutines();
         audioManager.PlayClip(currentStep);
 
         plane1.GetComponent<MeshRenderer>().material = materials[currentStep%15];
