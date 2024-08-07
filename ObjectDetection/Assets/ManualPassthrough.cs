@@ -156,21 +156,21 @@ public class ManualPassthrough : MonoBehaviour
             {
                 createInteractable.gameObject.SetActive(false);
                 deleteInteractable.gameObject.SetActive(false);
+                LLockButton.gameObject.SetActive(false);
             }
             else
             {
                 createInteractable.gameObject.SetActive(true);
             }
 
-            
-            Vector3 directionToUserLLockButton = Camera.main.transform.position - LLockButton.gameObject.transform.position;
-            Quaternion rotationToUserLLockButton = Quaternion.LookRotation(directionToUserLLockButton);
-            bool isFacingUserLLockButton = Quaternion.Angle(LLockButton.gameObject.transform.rotation, rotationToUserLLockButton) > 120f;
 
-            if (!isFacingUserLLockButton)
-            {
-                LLockButton.gameObject.SetActive(false);
-            }
+            // Vector3 directionToUserLLockButton = Camera.main.transform.position - LLockButton.gameObject.transform.position;
+            // Quaternion rotationToUserLLockButton = Quaternion.LookRotation(directionToUserLLockButton);
+            // bool isFacingUserLLockButton = Quaternion.Angle(LLockButton.gameObject.transform.rotation, rotationToUserLLockButton) > 120f;
+
+            // if (!isFacingUserLLockButton)
+            // {
+            // }
 
             Vector3 directionToUserRLockButton = Camera.main.transform.position - RLockButton.gameObject.transform.position;
             Quaternion rotationToUserRLockButton = Quaternion.LookRotation(directionToUserRLockButton);
@@ -180,7 +180,7 @@ public class ManualPassthrough : MonoBehaviour
             {
                 RLockButton.gameObject.SetActive(false);
             }
-            
+
         }
     }
 
@@ -324,6 +324,8 @@ public class ManualPassthrough : MonoBehaviour
         if (objectToLock != null)
         {
             objectToLock.GetComponentInChildren<HandGrabInteractable>().enabled = !objectToLock.GetComponentInChildren<HandGrabInteractable>().enabled;
+            RLockButton.gameObject.SetActive(false);
+            LLockButton.gameObject.SetActive(false);
         }
     }
 }
