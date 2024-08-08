@@ -63,6 +63,7 @@ public class ManualPassthrough : MonoBehaviour
 
             if (currentSet.Count >= 2)
             {
+                DebugMesh();
                 if (wireframe != null)
                 {
                     Destroy(wireframe);
@@ -71,7 +72,13 @@ public class ManualPassthrough : MonoBehaviour
                 LineRenderer lineRenderer = wireframe.AddComponent<LineRenderer>();
                 lineRenderer.startWidth = 0.01f;
                 lineRenderer.endWidth = 0.01f;
-                lineRenderer.material = new Material(Shader.Find("Sprites/Default")) { color = Color.green };
+                if (debugMesh.faceCount > 0)
+                {
+                    lineRenderer.material = new Material(Shader.Find("Sprites/Default")) { color = Color.green };
+                } else
+                {
+                    lineRenderer.material = new Material(Shader.Find("Sprites/Default")) { color = Color.red };
+                }
                 lineRenderer.positionCount = currentSet.Count + 1;
                 for (int i = 0; i < currentSet.Count; i++)
                 {
@@ -240,8 +247,17 @@ public class ManualPassthrough : MonoBehaviour
         }
     }
 
+    private GameObject debugMeshObj;
+    private ProBuilderMesh debugMesh;
+    public Material debugMaterial;
+
     public void CreateMesh()
     {
+
+        if (debugMeshObj != null)
+        {
+            Destroy(debugMeshObj);
+        }
         if (wireframe != null)
         {
             Destroy(wireframe);
@@ -277,6 +293,32 @@ public class ManualPassthrough : MonoBehaviour
         foreach (GameObject obj in currentSet)
             Destroy(obj);
         currentSet.Clear();
+    }
+
+    public void DebugMesh()
+    {
+        if (debugMeshObj != null)
+        {
+            Destroy(debugMeshObj);
+        }
+
+        Vector3[] vertices = new Vector3[currentSet.Count];
+        Vector3 middle = Vector3.zero;
+        for (int i = 0; i < currentSet.Count; i++)
+            middle += currentSet[i].transform.position;
+
+        middle /= currentSet.Count;
+        for (int i = 0; i < currentSet.Count; i++)
+            vertices[i] = currentSet[i].transform.position - middle;
+
+        debugMeshObj = Instantiate(meshWrapper, middle, Quaternion.identity);
+        debugMeshObj.transform.parent = currentMesh.transform;
+
+        debugMesh = debugMeshObj.AddComponent<ProBuilderMesh>();
+        debugMesh.CreateShapeFromPolygon(vertices, 0.05f, false);
+        debugMesh.SetMaterial(debugMesh.faces, debugMaterial);
+        debugMesh.ToMesh();
+        debugMesh.Refresh();
     }
 
     public void DestroyMesh()
