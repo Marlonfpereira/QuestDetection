@@ -6,7 +6,7 @@ public class SceneManager : MonoBehaviour
 {
     // Start is called before the first frame update
     public GameObject plane1;
-    public Material[] materials = new Material[22];
+    public Material[] materials = new Material[20];
     public AudioSource audioSource;
     public AudioManager audioManager;
     private bool isPlaying = false;
@@ -58,6 +58,6 @@ public class SceneManager : MonoBehaviour
         audioManager.StopAllCoroutines();
         audioManager.PlayClip(currentStep);
 
-        plane1.GetComponent<MeshRenderer>().material = materials[currentStep%22];
+        plane1.GetComponent<MeshRenderer>().material = materials[currentStep%20];
     }
 }

@@ -38,7 +38,7 @@ public class AudioManager : MonoBehaviour
         public int numWords;
     }
 
-    private Subtitles[] subtitles = new Subtitles[22];
+    private Subtitles[] subtitles = new Subtitles[20];
 
     // Start is called before the first frame update
     void Start()
@@ -57,21 +57,21 @@ public class AudioManager : MonoBehaviour
         subtitles[4].text = "The first objective is to import the laptop into VR. You should create the shape of a laptop and edit it to fit in the best way possible. Once imported, lock its shape.";
         subtitles[5].text = "Your task is to use the laptop to answer an email. You will find an email written into a document. Write your response to the email in the same document.";
         subtitles[6].text = "In the second scenario, we are simulating a virtual lecture, where you will be learning about various tools. You will be asked to import them one by one, and then inspect and interact with them according to our instructions.";
-        subtitles[7].text = "Place vertices around the hammer to resemble its shape.";
-        subtitles[8].text = "The hammer is a tool commonly used to break things and drive nails in or out. It consists in two parts: a handle and a heavy metal head. Grab and lift the hammer from the table.";
-        subtitles[9].text = "Place vertices around the pliers to resemble its shape.";
-        subtitles[10].text = "Pliers can have a variety of purposes: bend wires, cut cables, firmly grip objects or manipulate small parts. Its shape can have variations, but usually they look like a pair of scissors. Grab the plier, and try to open and close it.";
-        subtitles[11].text = "Place vertices around the screwdriver to resemble its shape.";
-        subtitles[12].text = "The screwdriver is used for the insertion and removal of screws. It can have an interchangeable tip in order to be used with different types of screws. To facilitate its use, it is possible to change the direction it can be rotated. ";
-        subtitles[13].text = "Grab the screwdriver, and do the following interactions: Step 1: move the slider down to use it counterclockwise. Step 2: move the slider up to use it clockwise.";
-        subtitles[14].text = "Place vertices around the wrench to resemble its shape.";
-        subtitles[15].text = "The wrench is a tool used to provide grip and apply torque to turn objects - usually parts like nuts and bolts. It can also be adjustable, including a spinner that changes its width. Grab the wrench, and do the following interactions:";
-        subtitles[16].text = "Step 1: Pull the spinner down to make the wrench open. Step 2: Push the spinner up to make the wrench closer.";
-        subtitles[17].text = "Import the mug into virtual reality. You will find it at the virtual coffee table.";
-        subtitles[18].text = "Once imported, your task is to grab the mug from the coffee table, pretend to take a sip from it, then place the mug on your desk.";
-        subtitles[19].text = "Import the whiteboard into VR. Your task is to use the whiteboard to list your opinions of three designs (presented next) and choose your favorite. You can use the markers or your fingers to write.";
-        subtitles[20].text = "Using the whiteboard, provide your feedback for these three designs";
-        subtitles[21].text = "Thank you for participating";
+        // subtitles[7].text = "Place vertices around the hammer to resemble its shape.";
+        // subtitles[8].text = "The hammer is a tool commonly used to break things and drive nails in or out. It consists in two parts: a handle and a heavy metal head. Grab and lift the hammer from the table.";
+        subtitles[7].text = "Place vertices around the pliers to resemble its shape.";
+        subtitles[8].text = "Pliers can have a variety of purposes: bend wires, cut cables, firmly grip objects or manipulate small parts. Its shape can have variations, but usually they look like a pair of scissors. Grab the plier, and try to open and close it.";
+        subtitles[9].text = "Place vertices around the screwdriver to resemble its shape.";
+        subtitles[10].text = "The screwdriver is used for the insertion and removal of screws. It can have an interchangeable tip in order to be used with different types of screws. To facilitate its use, it is possible to change the direction it can be rotated. ";
+        subtitles[11].text = "Grab the screwdriver, and do the following interactions: Step 1: move the slider down to use it counterclockwise. Step 2: move the slider up to use it clockwise.";
+        subtitles[12].text = "Place vertices around the wrench to resemble its shape.";
+        subtitles[13].text = "The wrench is a tool used to provide grip and apply torque to turn objects - usually parts like nuts and bolts. It can also be adjustable, including a spinner that changes its width. Grab the wrench, and do the following interactions:";
+        subtitles[14].text = "Step 1: Pull the spinner down to make the wrench open. Step 2: Push the spinner up to make the wrench closer.";
+        subtitles[15].text = "Import the mug into virtual reality. You will find it at the virtual coffee table.";
+        subtitles[16].text = "Once imported, your task is to grab the mug from the coffee table, pretend to take a sip from it, then place the mug on your desk.";
+        subtitles[17].text = "Import the whiteboard into VR. Your task is to use the whiteboard to list your opinions of three designs (presented next) and choose your favorite. You can use the markers or your fingers to write.";
+        subtitles[18].text = "Using the whiteboard, provide your feedback for these three designs";
+        subtitles[19].text = "Thank you for participating";
 
 
         
