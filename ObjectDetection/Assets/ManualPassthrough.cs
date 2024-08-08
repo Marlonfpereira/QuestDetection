@@ -93,6 +93,25 @@ public class ManualPassthrough : MonoBehaviour
                     {
                         isLongPinch = true;
                     }
+                    if (isLongPinch)
+                    {
+                        if (wireframe != null)
+                        {
+                            Destroy(wireframe);
+                        }
+                        wireframe = new GameObject();
+                        LineRenderer lineRenderer = wireframe.AddComponent<LineRenderer>();
+                        lineRenderer.startWidth = 0.01f;
+                        lineRenderer.endWidth = 0.01f;
+                        lineRenderer.material = new Material(Shader.Find("Sprites/Default")) { color = Color.green };
+                        lineRenderer.positionCount = 5;
+                        lineRenderer.SetPosition(0, currentSet[0].transform.position);
+                        lineRenderer.SetPosition(1, new Vector3(currentSet[0].transform.position.x, controllerSphere.transform.position.y, currentSet[0].transform.position.z));
+                        lineRenderer.SetPosition(2, controllerSphere.transform.position);
+                        lineRenderer.SetPosition(3, new Vector3(controllerSphere.transform.position.x, currentSet[0].transform.position.y, controllerSphere.transform.position.z));
+                        lineRenderer.SetPosition(4, currentSet[0].transform.position);
+                        wireframe.transform.parent = currentMesh.transform;
+                    }
                 }
             }
             else
