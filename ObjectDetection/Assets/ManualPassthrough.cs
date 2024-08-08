@@ -24,6 +24,8 @@ public class ManualPassthrough : MonoBehaviour
     private bool isCreating = false;
     private bool spawningVertice = false;
     public TextMeshPro buttonText;
+    public TextMeshPro MenuButtonText;
+    public TextMeshPro resizeButtonText;
     public PokeInteractable createInteractable;
     public PokeInteractable deleteInteractable;
     public PokeInteractable LLockButton;
@@ -45,10 +47,11 @@ public class ManualPassthrough : MonoBehaviour
     private float pinchDuration = .5f;
     private GameObject wireframe;
     private bool buttonsVisible = true;
+    private bool resizable = true;
 
 
-    private Vector3 initialDistanceBetweenHands; // Initial distance between hands
-    private Vector3 initialScale; // Initial scale of the GameObject
+    private Vector3 initialDistanceBetweenHands;
+    private Vector3 initialScale;
 
     void Update()
     {
@@ -138,7 +141,7 @@ public class ManualPassthrough : MonoBehaviour
         {
             deleteInteractable.gameObject.SetActive(true);
 
-            if (buttonsVisible && grabInteractorR.HasSelectedInteractable && grabInteractorL.SelectedInteractable == grabInteractorR.SelectedInteractable)
+            if (resizable && grabInteractorR.HasSelectedInteractable && grabInteractorL.SelectedInteractable == grabInteractorR.SelectedInteractable)
             {
                 grabInteractorL.SelectedInteractable.transform.parent.gameObject.transform.parent = scaleObj.transform;
 
@@ -206,6 +209,16 @@ public class ManualPassthrough : MonoBehaviour
     public void ToggleButtons()
     {
         buttonsVisible = !buttonsVisible;
+
+        if (buttonsVisible)
+        {
+            MenuButtonText.text = "Deactivate Wrist Menu";
+        }
+        else
+        {
+            MenuButtonText.text = "Activate Wrist Menu";
+        }
+
         LLockButton.gameObject.SetActive(buttonsVisible);
         RLockButton.gameObject.SetActive(buttonsVisible);
         createInteractable.gameObject.SetActive(buttonsVisible);
@@ -216,7 +229,7 @@ public class ManualPassthrough : MonoBehaviour
         if (!isCreating)
         {
             isCreating = true;
-            buttonText.text = "Finnish";
+            buttonText.text = "Finish";
         }
         else
         {
@@ -345,6 +358,20 @@ public class ManualPassthrough : MonoBehaviour
             objectToLock.GetComponentInChildren<HandGrabInteractable>().enabled = !objectToLock.GetComponentInChildren<HandGrabInteractable>().enabled;
             RLockButton.gameObject.SetActive(false);
             LLockButton.gameObject.SetActive(false);
+        }
+    }
+
+    public void ToggleResize()
+    {
+        resizable = !resizable;
+
+        if (resizable)
+        {
+            resizeButtonText.text = "Deactivate Resizing";
+        }
+        else
+        {
+            resizeButtonText.text = "Activate Resizing";
         }
     }
 }
