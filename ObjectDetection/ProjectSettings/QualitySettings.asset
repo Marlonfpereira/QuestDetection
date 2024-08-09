@@ -20,7 +20,13 @@ QualitySettings:
     shadowmaskMode: 0
     skinWeights: 2
     globalTextureMipmapLimit: 0
-    textureMipmapLimitSettings: []
+    textureMipmapLimitSettings:
+    - serializedVersion: 0
+      limitBiasMode: 0
+      limitBias: 0
+    - serializedVersion: 0
+      limitBiasMode: 0
+      limitBias: 0
     anisotropicTextures: 0
     antiAliasing: 0
     softParticles: 0
@@ -70,7 +76,13 @@ QualitySettings:
     shadowmaskMode: 0
     skinWeights: 4
     globalTextureMipmapLimit: 0
-    textureMipmapLimitSettings: []
+    textureMipmapLimitSettings:
+    - serializedVersion: 0
+      limitBiasMode: 0
+      limitBias: 0
+    - serializedVersion: 0
+      limitBiasMode: 0
+      limitBias: 0
     anisotropicTextures: 1
     antiAliasing: 0
     softParticles: 0
@@ -120,7 +132,13 @@ QualitySettings:
     shadowmaskMode: 1
     skinWeights: 255
     globalTextureMipmapLimit: 0
-    textureMipmapLimitSettings: []
+    textureMipmapLimitSettings:
+    - serializedVersion: 0
+      limitBiasMode: 1
+      limitBias: 0
+    - serializedVersion: 0
+      limitBiasMode: 0
+      limitBias: -3
     anisotropicTextures: 1
     antiAliasing: 2
     softParticles: 0
@@ -130,8 +148,8 @@ QualitySettings:
     useLegacyDetailDistribution: 1
     vSyncCount: 0
     realtimeGICPUUsage: 25
-    lodBias: 2
-    maximumLODLevel: 0
+    lodBias: 100
+    maximumLODLevel: 7
     enableLODCrossFade: 1
     streamingMipmapsActive: 0
     streamingMipmapsAddAllCameras: 1
@@ -146,7 +164,7 @@ QualitySettings:
     resolutionScalingFixedDPIFactor: 1
     customRenderPipeline: {fileID: 11400000, guid: 7b7fd9122c28c4d15b667c7040e3b3fd,
       type: 2}
-    terrainQualityOverrides: 106
+    terrainQualityOverrides: 0
     terrainPixelError: 1
     terrainDetailDensityScale: 1
     terrainBasemapDistance: 1197
@@ -156,7 +174,9 @@ QualitySettings:
     terrainFadeLength: 9.2
     terrainMaxTrees: 50
     excludedTargetPlatforms: []
-  m_TextureMipmapLimitGroupNames: []
+  m_TextureMipmapLimitGroupNames:
+  - Full
+  - Minus One
   m_PerPlatformDefaultQuality:
     Android: 0
     CloudRendering: 2
