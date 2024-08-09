@@ -99,7 +99,7 @@ public class ManualPassthrough : MonoBehaviour
                 else
                 {
                     pinchTimer += Time.deltaTime;
-                    if (pinchTimer >= pinchDuration)
+                    if (pinchTimer >= pinchDuration && currentSet.Count < 2)
                     {
                         isLongPinch = true;
                     }
